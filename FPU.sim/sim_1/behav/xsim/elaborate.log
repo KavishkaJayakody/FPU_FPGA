@@ -1,0 +1,17 @@
+Vivado Simulator v2024.2.0
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+Running: E:/Viv/Vivado/2024.2/bin/unwrapped/win64.o/xelab.exe --incr --debug typical --relax --mt 2 -L xil_defaultlib -L uvm -L unisims_ver -L unimacro_ver -L secureip --snapshot addsub_normalize_tb_behav xil_defaultlib.addsub_normalize_tb xil_defaultlib.glbl -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+Pass Through NonSizing Optimizer
+WARNING: [VRFC 10-3091] actual bit length 23 differs from formal bit length 24 for port 'mant_a_aligned' [H:/KavishkaJ/UOM/Sem 5/DSD/Assignments/FPU/FPU/FPU.srcs/sim_1/new/addsub_normalize_tb.sv:42]
+WARNING: [VRFC 10-3091] actual bit length 23 differs from formal bit length 24 for port 'mant_b_aligned' [H:/KavishkaJ/UOM/Sem 5/DSD/Assignments/FPU/FPU/FPU.srcs/sim_1/new/addsub_normalize_tb.sv:43]
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling module xil_defaultlib.addsub_normalize
+Compiling module xil_defaultlib.addsub_normalize_tb
+Compiling module xil_defaultlib.glbl
+Built simulation snapshot addsub_normalize_tb_behav

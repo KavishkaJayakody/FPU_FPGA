@@ -1,0 +1,4 @@
+Running: xsim.dir/addsub_normalize_tb_behav/xsimk.exe -simmode gui -wdb addsub_normalize_tb_behav.wdb -simrunnum 0 -socket 52247
+Design successfully loaded
+Design Loading Memory Usage: 26508 KB (Peak: 26508 KB)
+Design Loading CPU Usage: 843 ms
