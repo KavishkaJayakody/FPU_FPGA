@@ -33,6 +33,8 @@ module tb_align_exp;
     logic [23:0] mant_b_aligned;
 
     // Instantiate the module
+    
+    
     align_exp uut (
         .exp_a(exp_a),
         .exp_b(exp_b),

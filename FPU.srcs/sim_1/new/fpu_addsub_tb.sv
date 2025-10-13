@@ -1,105 +1,125 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 10/11/2025 03:43:22 AM
-// Design Name: 
-// Module Name: fpu_addsub_tb
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
 
 module fpu_addsub_tb;
 
-    // Parameters (IEEE 754 single precision)
-    localparam NUM_WIDTH  = 32;
+    // ----------------------------
+    // Parameters (match DUT)
+    // ----------------------------
     localparam EXP_WIDTH  = 8;
     localparam MANT_WIDTH = 23;
+    localparam NUM_WIDTH  = 32;
 
-    // DUT inputs/outputs
+    // ----------------------------
+    // DUT signals
+    // ----------------------------
+    logic clk;
+    logic rst_n;
+    logic start;
     logic [NUM_WIDTH-1:0] A, B;
-    logic ADD;
+    logic ADD;                // 1 = add, 0 = sub
     logic [NUM_WIDTH-1:0] C;
+    logic done;
 
-    // Instantiate the DUT
+    // ----------------------------
+    // Instantiate DUT
+    // ----------------------------
     fpu_addsub #(
         .EXP_WIDTH(EXP_WIDTH),
         .MANT_WIDTH(MANT_WIDTH),
         .NUM_WIDTH(NUM_WIDTH)
     ) dut (
+        .clk(clk),
+        .rst_n(rst_n),
+        .start(start),
         .A(A),
         .B(B),
         .ADD(ADD),
-        .C(C)
+        .C(C),
+        .done(done)
     );
 
-    // Function to print binary and real forms
-    function real bits_to_float(input logic [31:0] bits);
-        shortreal tmp;
-        tmp = $bitstoshortreal(bits);
-        return tmp;
-    endfunction
+    // ----------------------------
+    // Clock generation (100 MHz)
+    // ----------------------------
+    initial clk = 0;
+    always #5 clk = ~clk;  // 10 ns period
 
-    // Task to apply one test vector
-    task run_test(input logic [31:0] a_bits, b_bits, input bit add);
-        logic [31:0] c_bits;
+    // ----------------------------
+    // Reset task
+    // ----------------------------
+    task reset_dut;
         begin
-            A = a_bits;
-            B = b_bits;
-            ADD = add;
-            #10;
-            c_bits = C;
-            $display("------------------------------------------------------------");
-            $display("A = %b  (%f)", A, bits_to_float(A));
-            $display("B = %b  (%f)", B, bits_to_float(B));
-            $display("Operation: %s", (ADD ? "ADD" : "SUB"));
-            $display("C = %b  (%f)", C, bits_to_float(C));
-            $display("------------------------------------------------------------\n");
+            rst_n = 0;
+            start = 0;
+            A = 0;
+            B = 0;
+            ADD = 1;
+            #50;
+            rst_n = 1;
+            #20;
         end
     endtask
 
+    // ----------------------------
+    // Apply one test case
+    // ----------------------------
+    task run_case(input real a_val, input real b_val, input bit add_op);
+        real expected;
+        begin
+            // convert real -> IEEE 754 (32-bit)
+            A = $realtobits(a_val);
+            B = $realtobits(b_val);
+            ADD = add_op;
+
+            start = 1;
+            @(posedge clk);
+            start = 0;
+
+            // wait for done pulse
+            wait(done);
+            @(posedge clk);
+
+            // display results
+            $display("\n--------------------------------------");
+            $display("A      = %f (0x%h)", a_val, A);
+            $display("B      = %f (0x%h)", b_val, B);
+            $display("Op     = %s", add_op ? "ADD" : "SUB");
+            $display("Result = %f (0x%h)", $bitstoreal(C), C);
+            if (add_op)
+                expected = a_val + b_val;
+            else
+                expected = a_val - b_val;
+            $display("Expected (float) = %f", expected);
+            $display("--------------------------------------\n");
+        end
+    endtask
+
+    // ----------------------------
+    // Test sequence
+    // ----------------------------
     initial begin
-        $display("Starting FPU ADD/SUB Testbench...\n");
+        $display("Starting FPU ADD/SUB Testbench...");
+        reset_dut();
 
-        // Wait for initialization
-        #5;
+        // Test 1: simple addition
+        run_case(3.5, 2.25, 1);   // 3.5 + 2.25
 
-        // ===============================
-        // Test Cases
-        // ===============================
+        // Test 2: subtraction
+        run_case(5.75, 2.5, 0);   // 5.75 - 2.5
 
-        // 1. 1.0 + 1.0 = 2.0
-        run_test(32'h3F800000, 32'h3F800000, 1);
+        // Test 3: addition of negatives
+        run_case(-4.0, 2.0, 1);   // -4.0 + 2.0
 
-        // 2. 3.0 - 1.0 = 2.0
-        run_test(32'h40400000, 32'h3F800000, 0);
+        // Test 4: subtraction with negative B
+        run_case(1.5, -2.5, 0);   // 1.5 - (-2.5) = 4.0
 
-        // 3. 2.5 + (-1.25) = 1.25
-        run_test(32'h40200000, 32'hBFA00000, 1);
+        // Test 5: small numbers
+        run_case(0.001, 0.002, 1);
 
-        // 4. -4.0 + 1.5 = -2.5
-        run_test(32'hC0800000, 32'h3FC00000, 1);
-
-        // 5. -2.0 - (-2.0) = 0.0
-        run_test(32'hC0000000, 32'hC0000000, 0);
-
-        // ===============================
-        // End Simulation
-        // ===============================
-        #10;
-        $display("All tests complete.\n");
+        // Done
+        #100;
+        $display("Simulation completed.");
         $finish;
     end
 
 endmodule
-
