@@ -75,6 +75,7 @@ OPTRACE "Adding files" START { }
 read_verilog -library xil_defaultlib -sv {
   {H:/KavishkaJ/UOM/Sem 5/DSD/Assignments/FPU/FPU/FPU.srcs/sources_1/new/add_sub.sv}
   {H:/KavishkaJ/UOM/Sem 5/DSD/Assignments/FPU/FPU/FPU.srcs/sources_1/new/align_exp.sv}
+  {H:/KavishkaJ/UOM/Sem 5/DSD/Assignments/FPU/FPU/FPU.srcs/sources_1/new/control_unit.sv}
   {H:/KavishkaJ/UOM/Sem 5/DSD/Assignments/FPU/FPU/FPU.srcs/sources_1/new/normalize.sv}
   {H:/KavishkaJ/UOM/Sem 5/DSD/Assignments/FPU/FPU/FPU.srcs/sources_1/new/pack.sv}
   {H:/KavishkaJ/UOM/Sem 5/DSD/Assignments/FPU/FPU/FPU.srcs/sources_1/new/unpack.sv}
@@ -90,6 +91,8 @@ foreach dcp [get_files -quiet -all -filter file_type=="Design\ Checkpoint"] {
   set_property used_in_implementation false $dcp
 }
 set_param ips.enableIPCacheLiteLoad 1
+
+read_checkpoint -auto_incremental -incremental {H:/KavishkaJ/UOM/Sem 5/DSD/Assignments/FPU/FPU/FPU.srcs/utils_1/imports/synth_1/fpu.dcp}
 close [open __synthesis_is_running__ w]
 
 OPTRACE "synth_design" START { }

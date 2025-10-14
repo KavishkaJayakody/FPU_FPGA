@@ -24,7 +24,22 @@ module pack #(parameter WORD_WIDTH = 32,parameter EXP_WIDTH = 8, parameter MANT_
     input logic sign,
     input logic [EXP_WIDTH-1:0] exp,
     input logic [MANT_WIDTH:0] mant,
+    input logic clk,
+    input logic rst_n,
+    input logic en,
+    output logic ready,
     output logic [WORD_WIDTH-1:0] result    
     );
-    assign result = {sign, exp, mant[MANT_WIDTH-1:0]};
+
+    always_ff @(posedge clk or negedge rst_n) begin
+        if (!rst_n)
+            result  <= WORD_WIDTH==32?32'h7F800001:WORD_WIDTH==16?16'h7C01:WORD_WIDTH==64?64'h7FF0000000000001:0; // default NaN
+        else if (en) begin
+            ready   <= 1;
+            result  <= {sign, exp, mant[MANT_WIDTH-1:0]};
+        end else begin
+            ready   <= 0; 
+        end
+    end
+ 
 endmodule

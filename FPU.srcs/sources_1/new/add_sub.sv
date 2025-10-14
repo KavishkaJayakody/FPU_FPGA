@@ -27,6 +27,10 @@ module add_sub #(parameter WORD_WIDTH=32,parameter EXP_WIDTH=8, parameter MANT_W
     input logic sign_a,
     input logic sign_b,
     input logic op, // 0 for add, 1 for sub
+    input logic clk,
+    input logic rst_n,
+    input logic en,
+    output logic ready,
     output logic [MANT_WIDTH+1:0]mant_out,
     output logic [EXP_WIDTH-1:0]exp_out,
     output logic sign_out
@@ -34,22 +38,36 @@ module add_sub #(parameter WORD_WIDTH=32,parameter EXP_WIDTH=8, parameter MANT_W
     );
     assign exp_out = exp;
     
-    always_comb begin
-        if (sign_a == sign_b^op) begin
+    always_ff @(posedge clk, negedge rst_n) begin
+        if (!rst_n) begin
+            mant_out <= 0;
+            sign_out <= 0;
+            ready <= 0;
+        end else if (en) begin
+            if (sign_a == sign_b^op) begin
             mant_out = mant_a + mant_b;
             sign_out = sign_a;
-        end else begin
-            if (mant_a > mant_b) begin
-                mant_out = mant_a - mant_b;
-                sign_out = sign_a;
-            end else if (mant_b > mant_a) begin
-                mant_out = mant_b - mant_a;
-                sign_out = sign_b;
+            ready <= 1;
             end else begin
-                mant_out = 0;
-                sign_out = 0; // result is zero, sign can be either
-            end
+                if (mant_a > mant_b) begin
+                    mant_out = mant_a - mant_b;
+                    sign_out = sign_a;
+                    ready <= 1;
+                end else if (mant_b > mant_a) begin
+                    mant_out = mant_b - mant_a;
+                    sign_out = sign_b;
+                    ready <= 1;
+                end else begin
+                    mant_out = 0;
+                    sign_out = 0; // result is zero, sign can be either
+                    ready <= 1;
+                end
         end
+            
+        end else begin
+            ready <= 0;
+        end
+        
     end
 
 endmodule

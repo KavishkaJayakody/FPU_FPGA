@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.2 (win64) Build 5239630 Fri Nov 08 22:35:27 MST 2024
-| Date         : Mon Oct 13 23:12:24 2025
+| Date         : Tue Oct 14 11:12:52 2025
 | Host         : DESKTOP-FB1N93O running 64-bit major release  (build 9200)
 | Command      : report_control_sets -verbose -file fpu_control_sets_placed.rpt
 | Design       : fpu
@@ -23,11 +23,11 @@ Table of Contents
 +----------------------------------------------------------+-------+
 |                          Status                          | Count |
 +----------------------------------------------------------+-------+
-| Total control sets                                       |     0 |
-|    Minimum number of control sets                        |     0 |
+| Total control sets                                       |     8 |
+|    Minimum number of control sets                        |     8 |
 |    Addition due to synthesis replication                 |     0 |
 |    Addition due to physical synthesis replication        |     0 |
-| Unused register locations in slices containing registers |     0 |
+| Unused register locations in slices containing registers |    18 |
 +----------------------------------------------------------+-------+
 * Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
 ** Run report_qor_suggestions for automated merging and remapping suggestions
@@ -39,15 +39,15 @@ Table of Contents
 +--------------------+-------+
 |       Fanout       | Count |
 +--------------------+-------+
-| Total control sets |     0 |
-| >= 0 to < 4        |     0 |
+| Total control sets |     8 |
+| >= 0 to < 4        |     1 |
 | >= 4 to < 6        |     0 |
 | >= 6 to < 8        |     0 |
 | >= 8 to < 10       |     0 |
 | >= 10 to < 12      |     0 |
-| >= 12 to < 14      |     0 |
+| >= 12 to < 14      |     1 |
 | >= 14 to < 16      |     0 |
-| >= 16              |     0 |
+| >= 16              |     6 |
 +--------------------+-------+
 * Control sets can be remapped at either synth_design or opt_design
 
@@ -58,11 +58,11 @@ Table of Contents
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
 +--------------+-----------------------+------------------------+-----------------+--------------+
-| No           | No                    | No                     |               0 |            0 |
-| No           | No                    | Yes                    |               0 |            0 |
+| No           | No                    | No                     |               1 |            1 |
+| No           | No                    | Yes                    |              13 |            5 |
 | No           | Yes                   | No                     |               0 |            0 |
-| Yes          | No                    | No                     |               0 |            0 |
-| Yes          | No                    | Yes                    |               0 |            0 |
+| Yes          | No                    | No                     |              23 |           11 |
+| Yes          | No                    | Yes                    |             209 |           69 |
 | Yes          | Yes                   | No                     |               0 |            0 |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 
@@ -70,8 +70,17 @@ Table of Contents
 4. Detailed Control Set Information
 -----------------------------------
 
-+--------------+---------------+------------------+------------------+----------------+--------------+
-| Clock Signal | Enable Signal | Set/Reset Signal | Slice Load Count | Bel Load Count | Bels / Slice |
-+--------------+---------------+------------------+------------------+----------------+--------------+
++----------------+-------------------------------+------------------+------------------+----------------+--------------+
+|  Clock Signal  |         Enable Signal         | Set/Reset Signal | Slice Load Count | Bel Load Count | Bels / Slice |
++----------------+-------------------------------+------------------+------------------+----------------+--------------+
+|  clk_IBUF_BUFG |                               |                  |                1 |              1 |         1.00 |
+|  clk_IBUF_BUFG |                               | unpack/rstn      |                5 |             13 |         2.60 |
+|  clk_IBUF_BUFG | add_sub/mant_out_reg[24]_2[0] |                  |               11 |             23 |         2.09 |
+|  clk_IBUF_BUFG | control_unit/E[0]             | unpack/rstn      |                8 |             26 |         3.25 |
+|  clk_IBUF_BUFG | control_unit/Q[3]             | unpack/rstn      |               12 |             31 |         2.58 |
+|  clk_IBUF_BUFG | control_unit/Q[4]             | unpack/rstn      |                8 |             32 |         4.00 |
+|  clk_IBUF_BUFG | control_unit/Q[1]             | unpack/rstn      |               23 |             56 |         2.43 |
+|  clk_IBUF_BUFG | control_unit/Q[0]             | unpack/rstn      |               18 |             64 |         3.56 |
++----------------+-------------------------------+------------------+------------------+----------------+--------------+
 
 

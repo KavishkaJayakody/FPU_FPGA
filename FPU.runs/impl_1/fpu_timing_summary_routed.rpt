@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.2 (win64) Build 5239630 Fri Nov 08 22:35:27 MST 2024
-| Date         : Mon Oct 13 23:13:00 2025
+| Date         : Tue Oct 14 11:13:30 2025
 | Host         : DESKTOP-FB1N93O running 64-bit major release  (build 9200)
 | Command      : report_timing_summary -max_paths 10 -report_unconstrained -file fpu_timing_summary_routed.rpt -pb fpu_timing_summary_routed.pb -rpx fpu_timing_summary_routed.rpx -warn_on_violation
 | Design       : fpu
@@ -41,7 +41,11 @@ Timing Summary Report
 | ------------------
 ------------------------------------------------------------------------------------------------
 
-No report available as report_methodology has not been run prior. Run report_methodology on the current design for the summary of methodology violations.
+Rule       Severity          Description                  Violations  
+---------  ----------------  ---------------------------  ----------  
+TIMING-17  Critical Warning  Non-clocked sequential cell  246         
+
+Note: This report is based on the most recent report_methodology run and may not be up-to-date. Run report_methodology on the current design for the latest report.
 
 
 
@@ -49,12 +53,12 @@ check_timing report
 
 Table of Contents
 -----------------
-1. checking no_clock (0)
+1. checking no_clock (246)
 2. checking constant_clock (0)
 3. checking pulse_width_clock (0)
-4. checking unconstrained_internal_endpoints (0)
-5. checking no_input_delay (0)
-6. checking no_output_delay (0)
+4. checking unconstrained_internal_endpoints (700)
+5. checking no_input_delay (67)
+6. checking no_output_delay (32)
 7. checking multiple_clock (0)
 8. checking generated_clocks (0)
 9. checking loops (0)
@@ -62,9 +66,9 @@ Table of Contents
 11. checking partial_output_delay (0)
 12. checking latch_loops (0)
 
-1. checking no_clock (0)
-------------------------
- There are 0 register/latch pins with no clock.
+1. checking no_clock (246)
+--------------------------
+ There are 246 register/latch pins with no clock driven by root clock pin: clk (HIGH)
 
 
 2. checking constant_clock (0)
@@ -77,23 +81,23 @@ Table of Contents
  There are 0 register/latch pins which need pulse_width check
 
 
-4. checking unconstrained_internal_endpoints (0)
-------------------------------------------------
- There are 0 pins that are not constrained for maximum delay.
+4. checking unconstrained_internal_endpoints (700)
+--------------------------------------------------
+ There are 700 pins that are not constrained for maximum delay. (HIGH)
 
  There are 0 pins that are not constrained for maximum delay due to constant clock.
 
 
-5. checking no_input_delay (0)
-------------------------------
- There are 0 input ports with no input delay specified.
+5. checking no_input_delay (67)
+-------------------------------
+ There are 67 input ports with no input delay specified. (HIGH)
 
  There are 0 input ports with no input delay but user has a false path constraint.
 
 
-6. checking no_output_delay (0)
--------------------------------
- There are 0 ports with no output delay specified.
+6. checking no_output_delay (32)
+--------------------------------
+ There are 32 ports with no output delay specified. (HIGH)
 
  There are 0 ports with no output delay but user has a false path constraint
 
@@ -138,7 +142,7 @@ Table of Contents
 
     WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
     -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
-        inf        0.000                      0                   32          inf        0.000                      0                   32           NA           NA                      NA                    NA  
+        inf        0.000                      0                  732          inf        0.000                      0                  732           NA           NA                      NA                    NA  
 
 
 There are no user specified timing constraints.
@@ -207,641 +211,466 @@ Path Group:  (none)
 From Clock:  
   To Clock:  
 
-Max Delay            32 Endpoints
-Min Delay            32 Endpoints
+Max Delay           732 Endpoints
+Min Delay           732 Endpoints
 --------------------------------------------------------------------------------------
 
 
 Max Delay Paths
 --------------------------------------------------------------------------------------
 Slack:                    inf
-  Source:                 num_a[24]
-                            (input port)
-  Destination:            result[30]
-                            (output port)
+  Source:                 align_exp/mant_b_aligned_reg[1]/C
+                            (rising edge-triggered cell FDCE)
+  Destination:            add_sub/mant_out_reg[24]/D
   Path Group:             (none)
   Path Type:              Max at Slow Process Corner
-  Data Path Delay:        26.099ns  (logic 8.061ns (30.884%)  route 18.039ns (69.116%))
-  Logic Levels:           21  (CARRY4=7 IBUF=1 LUT2=2 LUT3=1 LUT4=2 LUT5=1 LUT6=6 OBUF=1)
+  Data Path Delay:        7.994ns  (logic 2.808ns (35.126%)  route 5.186ns (64.874%))
+  Logic Levels:           13  (CARRY4=9 FDCE=1 LUT4=2 LUT6=1)
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
-    N18                                               0.000     0.000 r  num_a[24] (IN)
-                         net (fo=0)                   0.000     0.000    num_a[24]
-    N18                  IBUF (Prop_ibuf_I_O)         0.977     0.977 r  num_a_IBUF[24]_inst/O
-                         net (fo=11, routed)          2.273     3.250    align_exp/num_a_IBUF[24]
-    SLICE_X42Y52         LUT2 (Prop_lut2_I1_O)        0.124     3.374 r  align_exp/mant_b_aligned2_carry_i_3/O
-                         net (fo=1, routed)           0.000     3.374    align_exp/mant_b_aligned2_carry_i_3_n_0
-    SLICE_X42Y52         CARRY4 (Prop_carry4_S[1]_CO[3])
-                                                      0.533     3.907 r  align_exp/mant_b_aligned2_carry/CO[3]
-                         net (fo=1, routed)           0.000     3.907    align_exp/mant_b_aligned2_carry_n_0
-    SLICE_X42Y53         CARRY4 (Prop_carry4_CI_O[0])
-                                                      0.219     4.126 r  align_exp/mant_b_aligned2_carry__0/O[0]
-                         net (fo=35, routed)          2.300     6.427    align_exp/mant_b_aligned20_out[4]
-    SLICE_X43Y43         LUT5 (Prop_lut5_I3_O)        0.295     6.722 r  align_exp/i__carry_i_10__0/O
-                         net (fo=2, routed)           0.972     7.693    align_exp/i__carry_i_10__0_n_0
-    SLICE_X39Y44         LUT6 (Prop_lut6_I5_O)        0.124     7.817 r  align_exp/mant_out0_carry_i_26/O
-                         net (fo=2, routed)           0.805     8.622    align_exp/mant_out0_carry_i_26_n_0
-    SLICE_X40Y44         LUT3 (Prop_lut3_I0_O)        0.152     8.774 r  align_exp/mant_out0_carry_i_18/O
-                         net (fo=2, routed)           0.829     9.603    align_exp/mant_out0_carry_i_18_n_0
-    SLICE_X41Y43         LUT6 (Prop_lut6_I2_O)        0.332     9.935 r  align_exp/mant_out0_carry_i_3/O
-                         net (fo=8, routed)           0.679    10.614    align_exp/mant_b_aligned[0]
-    SLICE_X40Y45         LUT4 (Prop_lut4_I2_O)        0.124    10.738 r  align_exp/mant_out1_carry_i_8/O
-                         net (fo=1, routed)           0.000    10.738    add_sub/S[0]
-    SLICE_X40Y45         CARRY4 (Prop_carry4_S[0]_CO[3])
-                                                      0.532    11.270 r  add_sub/mant_out1_carry/CO[3]
-                         net (fo=1, routed)           0.000    11.270    add_sub/mant_out1_carry_n_0
-    SLICE_X40Y46         CARRY4 (Prop_carry4_CI_CO[3])
-                                                      0.114    11.384 r  add_sub/mant_out1_carry__0/CO[3]
-                         net (fo=1, routed)           0.000    11.384    add_sub/mant_out1_carry__0_n_0
-    SLICE_X40Y47         CARRY4 (Prop_carry4_CI_CO[3])
-                                                      0.114    11.498 f  add_sub/mant_out1_carry__1/CO[3]
-                         net (fo=26, routed)          1.442    12.941    align_exp/CO[0]
-    SLICE_X38Y44         LUT6 (Prop_lut6_I4_O)        0.124    13.065 f  align_exp/result_OBUF[3]_inst_i_2/O
-                         net (fo=12, routed)          2.326    15.390    align_exp/result_OBUF[3]_inst_i_2_n_0
-    SLICE_X37Y57         LUT2 (Prop_lut2_I0_O)        0.124    15.514 r  align_exp/result_OBUF[2]_inst_i_12/O
-                         net (fo=1, routed)           0.810    16.324    align_exp/result_OBUF[2]_inst_i_12_n_0
-    SLICE_X37Y55         LUT6 (Prop_lut6_I2_O)        0.124    16.448 r  align_exp/result_OBUF[2]_inst_i_6/O
-                         net (fo=1, routed)           0.843    17.291    align_exp/result_OBUF[2]_inst_i_6_n_0
-    SLICE_X37Y54         LUT6 (Prop_lut6_I1_O)        0.124    17.415 r  align_exp/result_OBUF[2]_inst_i_3/O
-                         net (fo=25, routed)          0.955    18.369    align_exp/normalize/p_0_in[1]
-    SLICE_X43Y53         LUT4 (Prop_lut4_I3_O)        0.124    18.493 r  align_exp/exp_out0_carry_i_7/O
-                         net (fo=1, routed)           0.000    18.493    normalize/result_OBUF[23]_inst_i_1_0[1]
-    SLICE_X43Y53         CARRY4 (Prop_carry4_S[1]_CO[3])
-                                                      0.550    19.043 r  normalize/exp_out0_carry/CO[3]
-                         net (fo=1, routed)           0.000    19.043    normalize/exp_out0_carry_n_0
-    SLICE_X43Y54         CARRY4 (Prop_carry4_CI_O[3])
-                                                      0.313    19.356 r  normalize/exp_out0_carry__0/O[3]
-                         net (fo=1, routed)           0.799    20.155    align_exp/O[3]
-    SLICE_X42Y55         LUT6 (Prop_lut6_I1_O)        0.306    20.461 r  align_exp/result_OBUF[30]_inst_i_1/O
-                         net (fo=1, routed)           3.007    23.468    result_OBUF[30]
-    A20                  OBUF (Prop_obuf_I_O)         2.632    26.099 r  result_OBUF[30]_inst/O
-                         net (fo=0)                   0.000    26.099    result[30]
-    A20                                                               r  result[30] (OUT)
+    SLICE_X40Y46         FDCE                         0.000     0.000 r  align_exp/mant_b_aligned_reg[1]/C
+    SLICE_X40Y46         FDCE (Prop_fdce_C_Q)         0.456     0.456 r  align_exp/mant_b_aligned_reg[1]/Q
+                         net (fo=9, routed)           2.376     2.832    align_exp/mant_b_aligned_reg[23]_0[1]
+    SLICE_X40Y47         LUT4 (Prop_lut4_I2_O)        0.124     2.956 r  align_exp/mant_out1_carry_i_8/O
+                         net (fo=1, routed)           0.000     2.956    add_sub/S[0]
+    SLICE_X40Y47         CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.532     3.488 r  add_sub/mant_out1_carry/CO[3]
+                         net (fo=1, routed)           0.000     3.488    add_sub/mant_out1_carry_n_0
+    SLICE_X40Y48         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114     3.602 r  add_sub/mant_out1_carry__0/CO[3]
+                         net (fo=1, routed)           0.000     3.602    add_sub/mant_out1_carry__0_n_0
+    SLICE_X40Y49         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114     3.716 r  add_sub/mant_out1_carry__1/CO[3]
+                         net (fo=26, routed)          1.790     5.506    add_sub/mant_b_aligned_reg[22][0]
+    SLICE_X35Y48         LUT4 (Prop_lut4_I2_O)        0.124     5.630 r  add_sub/mant_out[7]_i_12/O
+                         net (fo=1, routed)           1.019     6.649    align_exp/mant_out_reg[7]_0
+    SLICE_X38Y48         LUT6 (Prop_lut6_I1_O)        0.124     6.773 r  align_exp/mant_out[7]_i_8/O
+                         net (fo=1, routed)           0.000     6.773    unpack/mant_out_reg[7][1]
+    SLICE_X38Y48         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533     7.306 r  unpack/mant_out_reg[7]_i_1/CO[3]
+                         net (fo=1, routed)           0.000     7.306    unpack/mant_out_reg[7]_i_1_n_0
+    SLICE_X38Y49         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.423 r  unpack/mant_out_reg[11]_i_1/CO[3]
+                         net (fo=1, routed)           0.001     7.424    unpack/mant_out_reg[11]_i_1_n_0
+    SLICE_X38Y50         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.541 r  unpack/mant_out_reg[15]_i_1/CO[3]
+                         net (fo=1, routed)           0.000     7.541    unpack/mant_out_reg[15]_i_1_n_0
+    SLICE_X38Y51         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.658 r  unpack/mant_out_reg[19]_i_1/CO[3]
+                         net (fo=1, routed)           0.000     7.658    unpack/mant_out_reg[19]_i_1_n_0
+    SLICE_X38Y52         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.775 r  unpack/mant_out_reg[23]_i_1/CO[3]
+                         net (fo=1, routed)           0.000     7.775    unpack/mant_out_reg[23]_i_1_n_0
+    SLICE_X38Y53         CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.219     7.994 r  unpack/mant_out_reg[24]_i_2/O[0]
+                         net (fo=1, routed)           0.000     7.994    add_sub/out[24]
+    SLICE_X38Y53         FDCE                                         r  add_sub/mant_out_reg[24]/D
   -------------------------------------------------------------------    -------------------
 
 Slack:                    inf
-  Source:                 num_a[24]
-                            (input port)
-  Destination:            result[28]
-                            (output port)
+  Source:                 align_exp/mant_b_aligned_reg[1]/C
+                            (rising edge-triggered cell FDCE)
+  Destination:            add_sub/mant_out_reg[21]/D
   Path Group:             (none)
   Path Type:              Max at Slow Process Corner
-  Data Path Delay:        25.983ns  (logic 8.050ns (30.982%)  route 17.933ns (69.018%))
-  Logic Levels:           21  (CARRY4=7 IBUF=1 LUT2=2 LUT3=1 LUT4=2 LUT5=2 LUT6=5 OBUF=1)
+  Data Path Delay:        7.981ns  (logic 2.795ns (35.021%)  route 5.186ns (64.979%))
+  Logic Levels:           12  (CARRY4=8 FDCE=1 LUT4=2 LUT6=1)
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
-    N18                                               0.000     0.000 r  num_a[24] (IN)
-                         net (fo=0)                   0.000     0.000    num_a[24]
-    N18                  IBUF (Prop_ibuf_I_O)         0.977     0.977 r  num_a_IBUF[24]_inst/O
-                         net (fo=11, routed)          2.273     3.250    align_exp/num_a_IBUF[24]
-    SLICE_X42Y52         LUT2 (Prop_lut2_I1_O)        0.124     3.374 r  align_exp/mant_b_aligned2_carry_i_3/O
-                         net (fo=1, routed)           0.000     3.374    align_exp/mant_b_aligned2_carry_i_3_n_0
-    SLICE_X42Y52         CARRY4 (Prop_carry4_S[1]_CO[3])
-                                                      0.533     3.907 r  align_exp/mant_b_aligned2_carry/CO[3]
-                         net (fo=1, routed)           0.000     3.907    align_exp/mant_b_aligned2_carry_n_0
-    SLICE_X42Y53         CARRY4 (Prop_carry4_CI_O[0])
-                                                      0.219     4.126 r  align_exp/mant_b_aligned2_carry__0/O[0]
-                         net (fo=35, routed)          2.300     6.427    align_exp/mant_b_aligned20_out[4]
-    SLICE_X43Y43         LUT5 (Prop_lut5_I3_O)        0.295     6.722 r  align_exp/i__carry_i_10__0/O
-                         net (fo=2, routed)           0.972     7.693    align_exp/i__carry_i_10__0_n_0
-    SLICE_X39Y44         LUT6 (Prop_lut6_I5_O)        0.124     7.817 r  align_exp/mant_out0_carry_i_26/O
-                         net (fo=2, routed)           0.805     8.622    align_exp/mant_out0_carry_i_26_n_0
-    SLICE_X40Y44         LUT3 (Prop_lut3_I0_O)        0.152     8.774 r  align_exp/mant_out0_carry_i_18/O
-                         net (fo=2, routed)           0.829     9.603    align_exp/mant_out0_carry_i_18_n_0
-    SLICE_X41Y43         LUT6 (Prop_lut6_I2_O)        0.332     9.935 r  align_exp/mant_out0_carry_i_3/O
-                         net (fo=8, routed)           0.679    10.614    align_exp/mant_b_aligned[0]
-    SLICE_X40Y45         LUT4 (Prop_lut4_I2_O)        0.124    10.738 r  align_exp/mant_out1_carry_i_8/O
-                         net (fo=1, routed)           0.000    10.738    add_sub/S[0]
-    SLICE_X40Y45         CARRY4 (Prop_carry4_S[0]_CO[3])
-                                                      0.532    11.270 r  add_sub/mant_out1_carry/CO[3]
-                         net (fo=1, routed)           0.000    11.270    add_sub/mant_out1_carry_n_0
-    SLICE_X40Y46         CARRY4 (Prop_carry4_CI_CO[3])
-                                                      0.114    11.384 r  add_sub/mant_out1_carry__0/CO[3]
-                         net (fo=1, routed)           0.000    11.384    add_sub/mant_out1_carry__0_n_0
-    SLICE_X40Y47         CARRY4 (Prop_carry4_CI_CO[3])
-                                                      0.114    11.498 f  add_sub/mant_out1_carry__1/CO[3]
-                         net (fo=26, routed)          1.442    12.941    align_exp/CO[0]
-    SLICE_X38Y44         LUT6 (Prop_lut6_I4_O)        0.124    13.065 f  align_exp/result_OBUF[3]_inst_i_2/O
-                         net (fo=12, routed)          2.326    15.390    align_exp/result_OBUF[3]_inst_i_2_n_0
-    SLICE_X37Y57         LUT2 (Prop_lut2_I0_O)        0.124    15.514 r  align_exp/result_OBUF[2]_inst_i_12/O
-                         net (fo=1, routed)           0.810    16.324    align_exp/result_OBUF[2]_inst_i_12_n_0
-    SLICE_X37Y55         LUT6 (Prop_lut6_I2_O)        0.124    16.448 r  align_exp/result_OBUF[2]_inst_i_6/O
-                         net (fo=1, routed)           0.843    17.291    align_exp/result_OBUF[2]_inst_i_6_n_0
-    SLICE_X37Y54         LUT6 (Prop_lut6_I1_O)        0.124    17.415 r  align_exp/result_OBUF[2]_inst_i_3/O
-                         net (fo=25, routed)          0.955    18.369    align_exp/normalize/p_0_in[1]
-    SLICE_X43Y53         LUT4 (Prop_lut4_I3_O)        0.124    18.493 r  align_exp/exp_out0_carry_i_7/O
-                         net (fo=1, routed)           0.000    18.493    normalize/result_OBUF[23]_inst_i_1_0[1]
-    SLICE_X43Y53         CARRY4 (Prop_carry4_S[1]_CO[3])
-                                                      0.550    19.043 r  normalize/exp_out0_carry/CO[3]
-                         net (fo=1, routed)           0.000    19.043    normalize/exp_out0_carry_n_0
-    SLICE_X43Y54         CARRY4 (Prop_carry4_CI_O[1])
-                                                      0.334    19.377 r  normalize/exp_out0_carry__0/O[1]
-                         net (fo=1, routed)           0.662    20.039    align_exp/O[1]
-    SLICE_X42Y55         LUT5 (Prop_lut5_I1_O)        0.303    20.342 r  align_exp/result_OBUF[28]_inst_i_1/O
-                         net (fo=1, routed)           3.037    23.380    result_OBUF[28]
-    D18                  OBUF (Prop_obuf_I_O)         2.603    25.983 r  result_OBUF[28]_inst/O
-                         net (fo=0)                   0.000    25.983    result[28]
-    D18                                                               r  result[28] (OUT)
+    SLICE_X40Y46         FDCE                         0.000     0.000 r  align_exp/mant_b_aligned_reg[1]/C
+    SLICE_X40Y46         FDCE (Prop_fdce_C_Q)         0.456     0.456 r  align_exp/mant_b_aligned_reg[1]/Q
+                         net (fo=9, routed)           2.376     2.832    align_exp/mant_b_aligned_reg[23]_0[1]
+    SLICE_X40Y47         LUT4 (Prop_lut4_I2_O)        0.124     2.956 r  align_exp/mant_out1_carry_i_8/O
+                         net (fo=1, routed)           0.000     2.956    add_sub/S[0]
+    SLICE_X40Y47         CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.532     3.488 r  add_sub/mant_out1_carry/CO[3]
+                         net (fo=1, routed)           0.000     3.488    add_sub/mant_out1_carry_n_0
+    SLICE_X40Y48         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114     3.602 r  add_sub/mant_out1_carry__0/CO[3]
+                         net (fo=1, routed)           0.000     3.602    add_sub/mant_out1_carry__0_n_0
+    SLICE_X40Y49         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114     3.716 r  add_sub/mant_out1_carry__1/CO[3]
+                         net (fo=26, routed)          1.790     5.506    add_sub/mant_b_aligned_reg[22][0]
+    SLICE_X35Y48         LUT4 (Prop_lut4_I2_O)        0.124     5.630 r  add_sub/mant_out[7]_i_12/O
+                         net (fo=1, routed)           1.019     6.649    align_exp/mant_out_reg[7]_0
+    SLICE_X38Y48         LUT6 (Prop_lut6_I1_O)        0.124     6.773 r  align_exp/mant_out[7]_i_8/O
+                         net (fo=1, routed)           0.000     6.773    unpack/mant_out_reg[7][1]
+    SLICE_X38Y48         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533     7.306 r  unpack/mant_out_reg[7]_i_1/CO[3]
+                         net (fo=1, routed)           0.000     7.306    unpack/mant_out_reg[7]_i_1_n_0
+    SLICE_X38Y49         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.423 r  unpack/mant_out_reg[11]_i_1/CO[3]
+                         net (fo=1, routed)           0.001     7.424    unpack/mant_out_reg[11]_i_1_n_0
+    SLICE_X38Y50         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.541 r  unpack/mant_out_reg[15]_i_1/CO[3]
+                         net (fo=1, routed)           0.000     7.541    unpack/mant_out_reg[15]_i_1_n_0
+    SLICE_X38Y51         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.658 r  unpack/mant_out_reg[19]_i_1/CO[3]
+                         net (fo=1, routed)           0.000     7.658    unpack/mant_out_reg[19]_i_1_n_0
+    SLICE_X38Y52         CARRY4 (Prop_carry4_CI_O[1])
+                                                      0.323     7.981 r  unpack/mant_out_reg[23]_i_1/O[1]
+                         net (fo=1, routed)           0.000     7.981    add_sub/out[21]
+    SLICE_X38Y52         FDCE                                         r  add_sub/mant_out_reg[21]/D
   -------------------------------------------------------------------    -------------------
 
 Slack:                    inf
-  Source:                 num_a[24]
-                            (input port)
-  Destination:            result[27]
-                            (output port)
+  Source:                 align_exp/mant_b_aligned_reg[1]/C
+                            (rising edge-triggered cell FDCE)
+  Destination:            add_sub/mant_out_reg[23]/D
   Path Group:             (none)
   Path Type:              Max at Slow Process Corner
-  Data Path Delay:        25.905ns  (logic 7.956ns (30.712%)  route 17.949ns (69.288%))
-  Logic Levels:           21  (CARRY4=7 IBUF=1 LUT2=2 LUT3=1 LUT4=2 LUT5=2 LUT6=5 OBUF=1)
+  Data Path Delay:        7.973ns  (logic 2.787ns (34.956%)  route 5.186ns (65.044%))
+  Logic Levels:           12  (CARRY4=8 FDCE=1 LUT4=2 LUT6=1)
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
-    N18                                               0.000     0.000 r  num_a[24] (IN)
-                         net (fo=0)                   0.000     0.000    num_a[24]
-    N18                  IBUF (Prop_ibuf_I_O)         0.977     0.977 r  num_a_IBUF[24]_inst/O
-                         net (fo=11, routed)          2.273     3.250    align_exp/num_a_IBUF[24]
-    SLICE_X42Y52         LUT2 (Prop_lut2_I1_O)        0.124     3.374 r  align_exp/mant_b_aligned2_carry_i_3/O
-                         net (fo=1, routed)           0.000     3.374    align_exp/mant_b_aligned2_carry_i_3_n_0
-    SLICE_X42Y52         CARRY4 (Prop_carry4_S[1]_CO[3])
-                                                      0.533     3.907 r  align_exp/mant_b_aligned2_carry/CO[3]
-                         net (fo=1, routed)           0.000     3.907    align_exp/mant_b_aligned2_carry_n_0
-    SLICE_X42Y53         CARRY4 (Prop_carry4_CI_O[0])
-                                                      0.219     4.126 r  align_exp/mant_b_aligned2_carry__0/O[0]
-                         net (fo=35, routed)          2.300     6.427    align_exp/mant_b_aligned20_out[4]
-    SLICE_X43Y43         LUT5 (Prop_lut5_I3_O)        0.295     6.722 r  align_exp/i__carry_i_10__0/O
-                         net (fo=2, routed)           0.972     7.693    align_exp/i__carry_i_10__0_n_0
-    SLICE_X39Y44         LUT6 (Prop_lut6_I5_O)        0.124     7.817 r  align_exp/mant_out0_carry_i_26/O
-                         net (fo=2, routed)           0.805     8.622    align_exp/mant_out0_carry_i_26_n_0
-    SLICE_X40Y44         LUT3 (Prop_lut3_I0_O)        0.152     8.774 r  align_exp/mant_out0_carry_i_18/O
-                         net (fo=2, routed)           0.829     9.603    align_exp/mant_out0_carry_i_18_n_0
-    SLICE_X41Y43         LUT6 (Prop_lut6_I2_O)        0.332     9.935 r  align_exp/mant_out0_carry_i_3/O
-                         net (fo=8, routed)           0.679    10.614    align_exp/mant_b_aligned[0]
-    SLICE_X40Y45         LUT4 (Prop_lut4_I2_O)        0.124    10.738 r  align_exp/mant_out1_carry_i_8/O
-                         net (fo=1, routed)           0.000    10.738    add_sub/S[0]
-    SLICE_X40Y45         CARRY4 (Prop_carry4_S[0]_CO[3])
-                                                      0.532    11.270 r  add_sub/mant_out1_carry/CO[3]
-                         net (fo=1, routed)           0.000    11.270    add_sub/mant_out1_carry_n_0
-    SLICE_X40Y46         CARRY4 (Prop_carry4_CI_CO[3])
-                                                      0.114    11.384 r  add_sub/mant_out1_carry__0/CO[3]
-                         net (fo=1, routed)           0.000    11.384    add_sub/mant_out1_carry__0_n_0
-    SLICE_X40Y47         CARRY4 (Prop_carry4_CI_CO[3])
-                                                      0.114    11.498 f  add_sub/mant_out1_carry__1/CO[3]
-                         net (fo=26, routed)          1.442    12.941    align_exp/CO[0]
-    SLICE_X38Y44         LUT6 (Prop_lut6_I4_O)        0.124    13.065 f  align_exp/result_OBUF[3]_inst_i_2/O
-                         net (fo=12, routed)          2.326    15.390    align_exp/result_OBUF[3]_inst_i_2_n_0
-    SLICE_X37Y57         LUT2 (Prop_lut2_I0_O)        0.124    15.514 r  align_exp/result_OBUF[2]_inst_i_12/O
-                         net (fo=1, routed)           0.810    16.324    align_exp/result_OBUF[2]_inst_i_12_n_0
-    SLICE_X37Y55         LUT6 (Prop_lut6_I2_O)        0.124    16.448 r  align_exp/result_OBUF[2]_inst_i_6/O
-                         net (fo=1, routed)           0.843    17.291    align_exp/result_OBUF[2]_inst_i_6_n_0
-    SLICE_X37Y54         LUT6 (Prop_lut6_I1_O)        0.124    17.415 r  align_exp/result_OBUF[2]_inst_i_3/O
-                         net (fo=25, routed)          0.955    18.369    align_exp/normalize/p_0_in[1]
-    SLICE_X43Y53         LUT4 (Prop_lut4_I3_O)        0.124    18.493 r  align_exp/exp_out0_carry_i_7/O
-                         net (fo=1, routed)           0.000    18.493    normalize/result_OBUF[23]_inst_i_1_0[1]
-    SLICE_X43Y53         CARRY4 (Prop_carry4_S[1]_CO[3])
-                                                      0.550    19.043 r  normalize/exp_out0_carry/CO[3]
-                         net (fo=1, routed)           0.000    19.043    normalize/exp_out0_carry_n_0
-    SLICE_X43Y54         CARRY4 (Prop_carry4_CI_O[0])
-                                                      0.222    19.265 r  normalize/exp_out0_carry__0/O[0]
-                         net (fo=1, routed)           0.570    19.835    align_exp/O[0]
-    SLICE_X41Y54         LUT5 (Prop_lut5_I1_O)        0.299    20.134 r  align_exp/result_OBUF[27]_inst_i_1/O
-                         net (fo=1, routed)           3.146    23.280    result_OBUF[27]
-    D19                  OBUF (Prop_obuf_I_O)         2.625    25.905 r  result_OBUF[27]_inst/O
-                         net (fo=0)                   0.000    25.905    result[27]
-    D19                                                               r  result[27] (OUT)
+    SLICE_X40Y46         FDCE                         0.000     0.000 r  align_exp/mant_b_aligned_reg[1]/C
+    SLICE_X40Y46         FDCE (Prop_fdce_C_Q)         0.456     0.456 r  align_exp/mant_b_aligned_reg[1]/Q
+                         net (fo=9, routed)           2.376     2.832    align_exp/mant_b_aligned_reg[23]_0[1]
+    SLICE_X40Y47         LUT4 (Prop_lut4_I2_O)        0.124     2.956 r  align_exp/mant_out1_carry_i_8/O
+                         net (fo=1, routed)           0.000     2.956    add_sub/S[0]
+    SLICE_X40Y47         CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.532     3.488 r  add_sub/mant_out1_carry/CO[3]
+                         net (fo=1, routed)           0.000     3.488    add_sub/mant_out1_carry_n_0
+    SLICE_X40Y48         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114     3.602 r  add_sub/mant_out1_carry__0/CO[3]
+                         net (fo=1, routed)           0.000     3.602    add_sub/mant_out1_carry__0_n_0
+    SLICE_X40Y49         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114     3.716 r  add_sub/mant_out1_carry__1/CO[3]
+                         net (fo=26, routed)          1.790     5.506    add_sub/mant_b_aligned_reg[22][0]
+    SLICE_X35Y48         LUT4 (Prop_lut4_I2_O)        0.124     5.630 r  add_sub/mant_out[7]_i_12/O
+                         net (fo=1, routed)           1.019     6.649    align_exp/mant_out_reg[7]_0
+    SLICE_X38Y48         LUT6 (Prop_lut6_I1_O)        0.124     6.773 r  align_exp/mant_out[7]_i_8/O
+                         net (fo=1, routed)           0.000     6.773    unpack/mant_out_reg[7][1]
+    SLICE_X38Y48         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533     7.306 r  unpack/mant_out_reg[7]_i_1/CO[3]
+                         net (fo=1, routed)           0.000     7.306    unpack/mant_out_reg[7]_i_1_n_0
+    SLICE_X38Y49         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.423 r  unpack/mant_out_reg[11]_i_1/CO[3]
+                         net (fo=1, routed)           0.001     7.424    unpack/mant_out_reg[11]_i_1_n_0
+    SLICE_X38Y50         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.541 r  unpack/mant_out_reg[15]_i_1/CO[3]
+                         net (fo=1, routed)           0.000     7.541    unpack/mant_out_reg[15]_i_1_n_0
+    SLICE_X38Y51         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.658 r  unpack/mant_out_reg[19]_i_1/CO[3]
+                         net (fo=1, routed)           0.000     7.658    unpack/mant_out_reg[19]_i_1_n_0
+    SLICE_X38Y52         CARRY4 (Prop_carry4_CI_O[3])
+                                                      0.315     7.973 r  unpack/mant_out_reg[23]_i_1/O[3]
+                         net (fo=1, routed)           0.000     7.973    add_sub/out[23]
+    SLICE_X38Y52         FDCE                                         r  add_sub/mant_out_reg[23]/D
   -------------------------------------------------------------------    -------------------
 
 Slack:                    inf
-  Source:                 num_a[24]
-                            (input port)
-  Destination:            result[25]
-                            (output port)
+  Source:                 align_exp/mant_b_aligned_reg[1]/C
+                            (rising edge-triggered cell FDCE)
+  Destination:            add_sub/mant_out_reg[22]/D
   Path Group:             (none)
   Path Type:              Max at Slow Process Corner
-  Data Path Delay:        25.819ns  (logic 7.751ns (30.023%)  route 18.067ns (69.977%))
-  Logic Levels:           20  (CARRY4=6 IBUF=1 LUT2=2 LUT3=1 LUT4=2 LUT5=1 LUT6=6 OBUF=1)
+  Data Path Delay:        7.897ns  (logic 2.711ns (34.330%)  route 5.186ns (65.670%))
+  Logic Levels:           12  (CARRY4=8 FDCE=1 LUT4=2 LUT6=1)
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
-    N18                                               0.000     0.000 r  num_a[24] (IN)
-                         net (fo=0)                   0.000     0.000    num_a[24]
-    N18                  IBUF (Prop_ibuf_I_O)         0.977     0.977 r  num_a_IBUF[24]_inst/O
-                         net (fo=11, routed)          2.273     3.250    align_exp/num_a_IBUF[24]
-    SLICE_X42Y52         LUT2 (Prop_lut2_I1_O)        0.124     3.374 r  align_exp/mant_b_aligned2_carry_i_3/O
-                         net (fo=1, routed)           0.000     3.374    align_exp/mant_b_aligned2_carry_i_3_n_0
-    SLICE_X42Y52         CARRY4 (Prop_carry4_S[1]_CO[3])
-                                                      0.533     3.907 r  align_exp/mant_b_aligned2_carry/CO[3]
-                         net (fo=1, routed)           0.000     3.907    align_exp/mant_b_aligned2_carry_n_0
-    SLICE_X42Y53         CARRY4 (Prop_carry4_CI_O[0])
-                                                      0.219     4.126 r  align_exp/mant_b_aligned2_carry__0/O[0]
-                         net (fo=35, routed)          2.300     6.427    align_exp/mant_b_aligned20_out[4]
-    SLICE_X43Y43         LUT5 (Prop_lut5_I3_O)        0.295     6.722 r  align_exp/i__carry_i_10__0/O
-                         net (fo=2, routed)           0.972     7.693    align_exp/i__carry_i_10__0_n_0
-    SLICE_X39Y44         LUT6 (Prop_lut6_I5_O)        0.124     7.817 r  align_exp/mant_out0_carry_i_26/O
-                         net (fo=2, routed)           0.805     8.622    align_exp/mant_out0_carry_i_26_n_0
-    SLICE_X40Y44         LUT3 (Prop_lut3_I0_O)        0.152     8.774 r  align_exp/mant_out0_carry_i_18/O
-                         net (fo=2, routed)           0.829     9.603    align_exp/mant_out0_carry_i_18_n_0
-    SLICE_X41Y43         LUT6 (Prop_lut6_I2_O)        0.332     9.935 r  align_exp/mant_out0_carry_i_3/O
-                         net (fo=8, routed)           0.679    10.614    align_exp/mant_b_aligned[0]
-    SLICE_X40Y45         LUT4 (Prop_lut4_I2_O)        0.124    10.738 r  align_exp/mant_out1_carry_i_8/O
-                         net (fo=1, routed)           0.000    10.738    add_sub/S[0]
-    SLICE_X40Y45         CARRY4 (Prop_carry4_S[0]_CO[3])
-                                                      0.532    11.270 r  add_sub/mant_out1_carry/CO[3]
-                         net (fo=1, routed)           0.000    11.270    add_sub/mant_out1_carry_n_0
-    SLICE_X40Y46         CARRY4 (Prop_carry4_CI_CO[3])
-                                                      0.114    11.384 r  add_sub/mant_out1_carry__0/CO[3]
-                         net (fo=1, routed)           0.000    11.384    add_sub/mant_out1_carry__0_n_0
-    SLICE_X40Y47         CARRY4 (Prop_carry4_CI_CO[3])
-                                                      0.114    11.498 f  add_sub/mant_out1_carry__1/CO[3]
-                         net (fo=26, routed)          1.442    12.941    align_exp/CO[0]
-    SLICE_X38Y44         LUT6 (Prop_lut6_I4_O)        0.124    13.065 f  align_exp/result_OBUF[3]_inst_i_2/O
-                         net (fo=12, routed)          2.326    15.390    align_exp/result_OBUF[3]_inst_i_2_n_0
-    SLICE_X37Y57         LUT2 (Prop_lut2_I0_O)        0.124    15.514 r  align_exp/result_OBUF[2]_inst_i_12/O
-                         net (fo=1, routed)           0.810    16.324    align_exp/result_OBUF[2]_inst_i_12_n_0
-    SLICE_X37Y55         LUT6 (Prop_lut6_I2_O)        0.124    16.448 r  align_exp/result_OBUF[2]_inst_i_6/O
-                         net (fo=1, routed)           0.843    17.291    align_exp/result_OBUF[2]_inst_i_6_n_0
-    SLICE_X37Y54         LUT6 (Prop_lut6_I1_O)        0.124    17.415 r  align_exp/result_OBUF[2]_inst_i_3/O
-                         net (fo=25, routed)          0.955    18.369    align_exp/normalize/p_0_in[1]
-    SLICE_X43Y53         LUT4 (Prop_lut4_I3_O)        0.124    18.493 r  align_exp/exp_out0_carry_i_7/O
-                         net (fo=1, routed)           0.000    18.493    normalize/result_OBUF[23]_inst_i_1_0[1]
-    SLICE_X43Y53         CARRY4 (Prop_carry4_S[1]_O[2])
-                                                      0.580    19.073 r  normalize/exp_out0_carry/O[2]
-                         net (fo=1, routed)           1.105    20.178    align_exp/result[26][2]
-    SLICE_X42Y54         LUT6 (Prop_lut6_I1_O)        0.302    20.480 r  align_exp/result_OBUF[25]_inst_i_1/O
-                         net (fo=1, routed)           2.730    23.209    result_OBUF[25]
-    E18                  OBUF (Prop_obuf_I_O)         2.609    25.819 r  result_OBUF[25]_inst/O
-                         net (fo=0)                   0.000    25.819    result[25]
-    E18                                                               r  result[25] (OUT)
+    SLICE_X40Y46         FDCE                         0.000     0.000 r  align_exp/mant_b_aligned_reg[1]/C
+    SLICE_X40Y46         FDCE (Prop_fdce_C_Q)         0.456     0.456 r  align_exp/mant_b_aligned_reg[1]/Q
+                         net (fo=9, routed)           2.376     2.832    align_exp/mant_b_aligned_reg[23]_0[1]
+    SLICE_X40Y47         LUT4 (Prop_lut4_I2_O)        0.124     2.956 r  align_exp/mant_out1_carry_i_8/O
+                         net (fo=1, routed)           0.000     2.956    add_sub/S[0]
+    SLICE_X40Y47         CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.532     3.488 r  add_sub/mant_out1_carry/CO[3]
+                         net (fo=1, routed)           0.000     3.488    add_sub/mant_out1_carry_n_0
+    SLICE_X40Y48         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114     3.602 r  add_sub/mant_out1_carry__0/CO[3]
+                         net (fo=1, routed)           0.000     3.602    add_sub/mant_out1_carry__0_n_0
+    SLICE_X40Y49         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114     3.716 r  add_sub/mant_out1_carry__1/CO[3]
+                         net (fo=26, routed)          1.790     5.506    add_sub/mant_b_aligned_reg[22][0]
+    SLICE_X35Y48         LUT4 (Prop_lut4_I2_O)        0.124     5.630 r  add_sub/mant_out[7]_i_12/O
+                         net (fo=1, routed)           1.019     6.649    align_exp/mant_out_reg[7]_0
+    SLICE_X38Y48         LUT6 (Prop_lut6_I1_O)        0.124     6.773 r  align_exp/mant_out[7]_i_8/O
+                         net (fo=1, routed)           0.000     6.773    unpack/mant_out_reg[7][1]
+    SLICE_X38Y48         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533     7.306 r  unpack/mant_out_reg[7]_i_1/CO[3]
+                         net (fo=1, routed)           0.000     7.306    unpack/mant_out_reg[7]_i_1_n_0
+    SLICE_X38Y49         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.423 r  unpack/mant_out_reg[11]_i_1/CO[3]
+                         net (fo=1, routed)           0.001     7.424    unpack/mant_out_reg[11]_i_1_n_0
+    SLICE_X38Y50         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.541 r  unpack/mant_out_reg[15]_i_1/CO[3]
+                         net (fo=1, routed)           0.000     7.541    unpack/mant_out_reg[15]_i_1_n_0
+    SLICE_X38Y51         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.658 r  unpack/mant_out_reg[19]_i_1/CO[3]
+                         net (fo=1, routed)           0.000     7.658    unpack/mant_out_reg[19]_i_1_n_0
+    SLICE_X38Y52         CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239     7.897 r  unpack/mant_out_reg[23]_i_1/O[2]
+                         net (fo=1, routed)           0.000     7.897    add_sub/out[22]
+    SLICE_X38Y52         FDCE                                         r  add_sub/mant_out_reg[22]/D
   -------------------------------------------------------------------    -------------------
 
 Slack:                    inf
-  Source:                 num_a[24]
-                            (input port)
-  Destination:            result[21]
-                            (output port)
+  Source:                 align_exp/mant_b_aligned_reg[1]/C
+                            (rising edge-triggered cell FDCE)
+  Destination:            add_sub/mant_out_reg[20]/D
   Path Group:             (none)
   Path Type:              Max at Slow Process Corner
-  Data Path Delay:        25.810ns  (logic 7.306ns (28.307%)  route 18.504ns (71.693%))
-  Logic Levels:           19  (CARRY4=5 IBUF=1 LUT2=1 LUT3=1 LUT4=2 LUT5=3 LUT6=5 OBUF=1)
+  Data Path Delay:        7.877ns  (logic 2.691ns (34.163%)  route 5.186ns (65.837%))
+  Logic Levels:           12  (CARRY4=8 FDCE=1 LUT4=2 LUT6=1)
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
-    N18                                               0.000     0.000 r  num_a[24] (IN)
-                         net (fo=0)                   0.000     0.000    num_a[24]
-    N18                  IBUF (Prop_ibuf_I_O)         0.977     0.977 r  num_a_IBUF[24]_inst/O
-                         net (fo=11, routed)          2.273     3.250    align_exp/num_a_IBUF[24]
-    SLICE_X42Y52         LUT2 (Prop_lut2_I1_O)        0.124     3.374 r  align_exp/mant_b_aligned2_carry_i_3/O
-                         net (fo=1, routed)           0.000     3.374    align_exp/mant_b_aligned2_carry_i_3_n_0
-    SLICE_X42Y52         CARRY4 (Prop_carry4_S[1]_CO[3])
-                                                      0.533     3.907 r  align_exp/mant_b_aligned2_carry/CO[3]
-                         net (fo=1, routed)           0.000     3.907    align_exp/mant_b_aligned2_carry_n_0
-    SLICE_X42Y53         CARRY4 (Prop_carry4_CI_O[0])
-                                                      0.219     4.126 r  align_exp/mant_b_aligned2_carry__0/O[0]
-                         net (fo=35, routed)          2.300     6.427    align_exp/mant_b_aligned20_out[4]
-    SLICE_X43Y43         LUT5 (Prop_lut5_I3_O)        0.295     6.722 r  align_exp/i__carry_i_10__0/O
-                         net (fo=2, routed)           0.972     7.693    align_exp/i__carry_i_10__0_n_0
-    SLICE_X39Y44         LUT6 (Prop_lut6_I5_O)        0.124     7.817 r  align_exp/mant_out0_carry_i_26/O
-                         net (fo=2, routed)           0.805     8.622    align_exp/mant_out0_carry_i_26_n_0
-    SLICE_X40Y44         LUT3 (Prop_lut3_I0_O)        0.152     8.774 r  align_exp/mant_out0_carry_i_18/O
-                         net (fo=2, routed)           0.829     9.603    align_exp/mant_out0_carry_i_18_n_0
-    SLICE_X41Y43         LUT6 (Prop_lut6_I2_O)        0.332     9.935 r  align_exp/mant_out0_carry_i_3/O
-                         net (fo=8, routed)           0.666    10.601    align_exp/mant_b_aligned[0]
-    SLICE_X41Y45         LUT4 (Prop_lut4_I2_O)        0.124    10.725 r  align_exp/i__carry_i_8__5/O
-                         net (fo=1, routed)           0.000    10.725    add_sub/mant_out1_inferred__0/i__carry__0_1[0]
-    SLICE_X41Y45         CARRY4 (Prop_carry4_S[0]_CO[3])
-                                                      0.532    11.257 r  add_sub/mant_out1_inferred__0/i__carry/CO[3]
-                         net (fo=1, routed)           0.000    11.257    add_sub/mant_out1_inferred__0/i__carry_n_0
-    SLICE_X41Y46         CARRY4 (Prop_carry4_CI_CO[3])
-                                                      0.114    11.371 r  add_sub/mant_out1_inferred__0/i__carry__0/CO[3]
-                         net (fo=1, routed)           0.000    11.371    add_sub/mant_out1_inferred__0/i__carry__0_n_0
-    SLICE_X41Y47         CARRY4 (Prop_carry4_CI_CO[3])
-                                                      0.114    11.485 r  add_sub/mant_out1_inferred__0/i__carry__1/CO[3]
-                         net (fo=26, routed)          2.069    13.554    align_exp/result[31][0]
-    SLICE_X35Y47         LUT6 (Prop_lut6_I3_O)        0.124    13.678 r  align_exp/result_OBUF[8]_inst_i_2/O
-                         net (fo=9, routed)           1.805    15.484    align_exp/result_OBUF[8]_inst_i_2_n_0
-    SLICE_X37Y56         LUT4 (Prop_lut4_I0_O)        0.150    15.634 f  align_exp/exp_out0_carry_i_12/O
-                         net (fo=6, routed)           0.904    16.538    align_exp/exp_out0_carry_i_12_n_0
-    SLICE_X36Y56         LUT6 (Prop_lut6_I3_O)        0.326    16.864 r  align_exp/exp_out0_carry_i_9/O
-                         net (fo=18, routed)          1.396    18.259    align_exp/exp_out0_carry_i_9_n_0
-    SLICE_X38Y54         LUT5 (Prop_lut5_I0_O)        0.124    18.383 r  align_exp/result_OBUF[22]_inst_i_10/O
-                         net (fo=4, routed)           0.810    19.193    align_exp/result_OBUF[22]_inst_i_10_n_0
-    SLICE_X36Y55         LUT6 (Prop_lut6_I1_O)        0.124    19.317 r  align_exp/result_OBUF[21]_inst_i_3/O
-                         net (fo=2, routed)           0.815    20.132    align_exp/result_OBUF[21]_inst_i_3_n_0
-    SLICE_X39Y55         LUT5 (Prop_lut5_I4_O)        0.124    20.256 r  align_exp/result_OBUF[21]_inst_i_1/O
-                         net (fo=1, routed)           2.859    23.116    result_OBUF[21]
-    M19                  OBUF (Prop_obuf_I_O)         2.694    25.810 r  result_OBUF[21]_inst/O
-                         net (fo=0)                   0.000    25.810    result[21]
-    M19                                                               r  result[21] (OUT)
+    SLICE_X40Y46         FDCE                         0.000     0.000 r  align_exp/mant_b_aligned_reg[1]/C
+    SLICE_X40Y46         FDCE (Prop_fdce_C_Q)         0.456     0.456 r  align_exp/mant_b_aligned_reg[1]/Q
+                         net (fo=9, routed)           2.376     2.832    align_exp/mant_b_aligned_reg[23]_0[1]
+    SLICE_X40Y47         LUT4 (Prop_lut4_I2_O)        0.124     2.956 r  align_exp/mant_out1_carry_i_8/O
+                         net (fo=1, routed)           0.000     2.956    add_sub/S[0]
+    SLICE_X40Y47         CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.532     3.488 r  add_sub/mant_out1_carry/CO[3]
+                         net (fo=1, routed)           0.000     3.488    add_sub/mant_out1_carry_n_0
+    SLICE_X40Y48         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114     3.602 r  add_sub/mant_out1_carry__0/CO[3]
+                         net (fo=1, routed)           0.000     3.602    add_sub/mant_out1_carry__0_n_0
+    SLICE_X40Y49         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114     3.716 r  add_sub/mant_out1_carry__1/CO[3]
+                         net (fo=26, routed)          1.790     5.506    add_sub/mant_b_aligned_reg[22][0]
+    SLICE_X35Y48         LUT4 (Prop_lut4_I2_O)        0.124     5.630 r  add_sub/mant_out[7]_i_12/O
+                         net (fo=1, routed)           1.019     6.649    align_exp/mant_out_reg[7]_0
+    SLICE_X38Y48         LUT6 (Prop_lut6_I1_O)        0.124     6.773 r  align_exp/mant_out[7]_i_8/O
+                         net (fo=1, routed)           0.000     6.773    unpack/mant_out_reg[7][1]
+    SLICE_X38Y48         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533     7.306 r  unpack/mant_out_reg[7]_i_1/CO[3]
+                         net (fo=1, routed)           0.000     7.306    unpack/mant_out_reg[7]_i_1_n_0
+    SLICE_X38Y49         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.423 r  unpack/mant_out_reg[11]_i_1/CO[3]
+                         net (fo=1, routed)           0.001     7.424    unpack/mant_out_reg[11]_i_1_n_0
+    SLICE_X38Y50         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.541 r  unpack/mant_out_reg[15]_i_1/CO[3]
+                         net (fo=1, routed)           0.000     7.541    unpack/mant_out_reg[15]_i_1_n_0
+    SLICE_X38Y51         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.658 r  unpack/mant_out_reg[19]_i_1/CO[3]
+                         net (fo=1, routed)           0.000     7.658    unpack/mant_out_reg[19]_i_1_n_0
+    SLICE_X38Y52         CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.219     7.877 r  unpack/mant_out_reg[23]_i_1/O[0]
+                         net (fo=1, routed)           0.000     7.877    add_sub/out[20]
+    SLICE_X38Y52         FDCE                                         r  add_sub/mant_out_reg[20]/D
   -------------------------------------------------------------------    -------------------
 
 Slack:                    inf
-  Source:                 num_a[24]
-                            (input port)
-  Destination:            result[29]
-                            (output port)
+  Source:                 align_exp/mant_b_aligned_reg[1]/C
+                            (rising edge-triggered cell FDCE)
+  Destination:            add_sub/mant_out_reg[17]/D
   Path Group:             (none)
   Path Type:              Max at Slow Process Corner
-  Data Path Delay:        25.719ns  (logic 7.954ns (30.928%)  route 17.765ns (69.072%))
-  Logic Levels:           21  (CARRY4=7 IBUF=1 LUT2=2 LUT3=1 LUT4=2 LUT5=2 LUT6=5 OBUF=1)
+  Data Path Delay:        7.864ns  (logic 2.678ns (34.054%)  route 5.186ns (65.946%))
+  Logic Levels:           11  (CARRY4=7 FDCE=1 LUT4=2 LUT6=1)
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
-    N18                                               0.000     0.000 r  num_a[24] (IN)
-                         net (fo=0)                   0.000     0.000    num_a[24]
-    N18                  IBUF (Prop_ibuf_I_O)         0.977     0.977 r  num_a_IBUF[24]_inst/O
-                         net (fo=11, routed)          2.273     3.250    align_exp/num_a_IBUF[24]
-    SLICE_X42Y52         LUT2 (Prop_lut2_I1_O)        0.124     3.374 r  align_exp/mant_b_aligned2_carry_i_3/O
-                         net (fo=1, routed)           0.000     3.374    align_exp/mant_b_aligned2_carry_i_3_n_0
-    SLICE_X42Y52         CARRY4 (Prop_carry4_S[1]_CO[3])
-                                                      0.533     3.907 r  align_exp/mant_b_aligned2_carry/CO[3]
-                         net (fo=1, routed)           0.000     3.907    align_exp/mant_b_aligned2_carry_n_0
-    SLICE_X42Y53         CARRY4 (Prop_carry4_CI_O[0])
-                                                      0.219     4.126 r  align_exp/mant_b_aligned2_carry__0/O[0]
-                         net (fo=35, routed)          2.300     6.427    align_exp/mant_b_aligned20_out[4]
-    SLICE_X43Y43         LUT5 (Prop_lut5_I3_O)        0.295     6.722 r  align_exp/i__carry_i_10__0/O
-                         net (fo=2, routed)           0.972     7.693    align_exp/i__carry_i_10__0_n_0
-    SLICE_X39Y44         LUT6 (Prop_lut6_I5_O)        0.124     7.817 r  align_exp/mant_out0_carry_i_26/O
-                         net (fo=2, routed)           0.805     8.622    align_exp/mant_out0_carry_i_26_n_0
-    SLICE_X40Y44         LUT3 (Prop_lut3_I0_O)        0.152     8.774 r  align_exp/mant_out0_carry_i_18/O
-                         net (fo=2, routed)           0.829     9.603    align_exp/mant_out0_carry_i_18_n_0
-    SLICE_X41Y43         LUT6 (Prop_lut6_I2_O)        0.332     9.935 r  align_exp/mant_out0_carry_i_3/O
-                         net (fo=8, routed)           0.679    10.614    align_exp/mant_b_aligned[0]
-    SLICE_X40Y45         LUT4 (Prop_lut4_I2_O)        0.124    10.738 r  align_exp/mant_out1_carry_i_8/O
-                         net (fo=1, routed)           0.000    10.738    add_sub/S[0]
-    SLICE_X40Y45         CARRY4 (Prop_carry4_S[0]_CO[3])
-                                                      0.532    11.270 r  add_sub/mant_out1_carry/CO[3]
-                         net (fo=1, routed)           0.000    11.270    add_sub/mant_out1_carry_n_0
-    SLICE_X40Y46         CARRY4 (Prop_carry4_CI_CO[3])
-                                                      0.114    11.384 r  add_sub/mant_out1_carry__0/CO[3]
-                         net (fo=1, routed)           0.000    11.384    add_sub/mant_out1_carry__0_n_0
-    SLICE_X40Y47         CARRY4 (Prop_carry4_CI_CO[3])
-                                                      0.114    11.498 f  add_sub/mant_out1_carry__1/CO[3]
-                         net (fo=26, routed)          1.442    12.941    align_exp/CO[0]
-    SLICE_X38Y44         LUT6 (Prop_lut6_I4_O)        0.124    13.065 f  align_exp/result_OBUF[3]_inst_i_2/O
-                         net (fo=12, routed)          2.326    15.390    align_exp/result_OBUF[3]_inst_i_2_n_0
-    SLICE_X37Y57         LUT2 (Prop_lut2_I0_O)        0.124    15.514 r  align_exp/result_OBUF[2]_inst_i_12/O
-                         net (fo=1, routed)           0.810    16.324    align_exp/result_OBUF[2]_inst_i_12_n_0
-    SLICE_X37Y55         LUT6 (Prop_lut6_I2_O)        0.124    16.448 r  align_exp/result_OBUF[2]_inst_i_6/O
-                         net (fo=1, routed)           0.843    17.291    align_exp/result_OBUF[2]_inst_i_6_n_0
-    SLICE_X37Y54         LUT6 (Prop_lut6_I1_O)        0.124    17.415 r  align_exp/result_OBUF[2]_inst_i_3/O
-                         net (fo=25, routed)          0.955    18.369    align_exp/normalize/p_0_in[1]
-    SLICE_X43Y53         LUT4 (Prop_lut4_I3_O)        0.124    18.493 r  align_exp/exp_out0_carry_i_7/O
-                         net (fo=1, routed)           0.000    18.493    normalize/result_OBUF[23]_inst_i_1_0[1]
-    SLICE_X43Y53         CARRY4 (Prop_carry4_S[1]_CO[3])
-                                                      0.550    19.043 r  normalize/exp_out0_carry/CO[3]
-                         net (fo=1, routed)           0.000    19.043    normalize/exp_out0_carry_n_0
-    SLICE_X43Y54         CARRY4 (Prop_carry4_CI_O[2])
-                                                      0.239    19.282 r  normalize/exp_out0_carry__0/O[2]
-                         net (fo=1, routed)           0.432    19.714    align_exp/O[2]
-    SLICE_X42Y55         LUT5 (Prop_lut5_I1_O)        0.302    20.016 r  align_exp/result_OBUF[29]_inst_i_1/O
-                         net (fo=1, routed)           3.100    23.116    result_OBUF[29]
-    E17                  OBUF (Prop_obuf_I_O)         2.603    25.719 r  result_OBUF[29]_inst/O
-                         net (fo=0)                   0.000    25.719    result[29]
-    E17                                                               r  result[29] (OUT)
+    SLICE_X40Y46         FDCE                         0.000     0.000 r  align_exp/mant_b_aligned_reg[1]/C
+    SLICE_X40Y46         FDCE (Prop_fdce_C_Q)         0.456     0.456 r  align_exp/mant_b_aligned_reg[1]/Q
+                         net (fo=9, routed)           2.376     2.832    align_exp/mant_b_aligned_reg[23]_0[1]
+    SLICE_X40Y47         LUT4 (Prop_lut4_I2_O)        0.124     2.956 r  align_exp/mant_out1_carry_i_8/O
+                         net (fo=1, routed)           0.000     2.956    add_sub/S[0]
+    SLICE_X40Y47         CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.532     3.488 r  add_sub/mant_out1_carry/CO[3]
+                         net (fo=1, routed)           0.000     3.488    add_sub/mant_out1_carry_n_0
+    SLICE_X40Y48         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114     3.602 r  add_sub/mant_out1_carry__0/CO[3]
+                         net (fo=1, routed)           0.000     3.602    add_sub/mant_out1_carry__0_n_0
+    SLICE_X40Y49         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114     3.716 r  add_sub/mant_out1_carry__1/CO[3]
+                         net (fo=26, routed)          1.790     5.506    add_sub/mant_b_aligned_reg[22][0]
+    SLICE_X35Y48         LUT4 (Prop_lut4_I2_O)        0.124     5.630 r  add_sub/mant_out[7]_i_12/O
+                         net (fo=1, routed)           1.019     6.649    align_exp/mant_out_reg[7]_0
+    SLICE_X38Y48         LUT6 (Prop_lut6_I1_O)        0.124     6.773 r  align_exp/mant_out[7]_i_8/O
+                         net (fo=1, routed)           0.000     6.773    unpack/mant_out_reg[7][1]
+    SLICE_X38Y48         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533     7.306 r  unpack/mant_out_reg[7]_i_1/CO[3]
+                         net (fo=1, routed)           0.000     7.306    unpack/mant_out_reg[7]_i_1_n_0
+    SLICE_X38Y49         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.423 r  unpack/mant_out_reg[11]_i_1/CO[3]
+                         net (fo=1, routed)           0.001     7.424    unpack/mant_out_reg[11]_i_1_n_0
+    SLICE_X38Y50         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.541 r  unpack/mant_out_reg[15]_i_1/CO[3]
+                         net (fo=1, routed)           0.000     7.541    unpack/mant_out_reg[15]_i_1_n_0
+    SLICE_X38Y51         CARRY4 (Prop_carry4_CI_O[1])
+                                                      0.323     7.864 r  unpack/mant_out_reg[19]_i_1/O[1]
+                         net (fo=1, routed)           0.000     7.864    add_sub/out[17]
+    SLICE_X38Y51         FDCE                                         r  add_sub/mant_out_reg[17]/D
   -------------------------------------------------------------------    -------------------
 
 Slack:                    inf
-  Source:                 num_a[24]
-                            (input port)
-  Destination:            result[18]
-                            (output port)
+  Source:                 align_exp/mant_b_aligned_reg[1]/C
+                            (rising edge-triggered cell FDCE)
+  Destination:            add_sub/mant_out_reg[19]/D
   Path Group:             (none)
   Path Type:              Max at Slow Process Corner
-  Data Path Delay:        25.608ns  (logic 7.524ns (29.383%)  route 18.084ns (70.617%))
-  Logic Levels:           19  (CARRY4=5 IBUF=1 LUT2=1 LUT3=2 LUT4=2 LUT5=2 LUT6=5 OBUF=1)
+  Data Path Delay:        7.856ns  (logic 2.670ns (33.987%)  route 5.186ns (66.013%))
+  Logic Levels:           11  (CARRY4=7 FDCE=1 LUT4=2 LUT6=1)
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
-    N18                                               0.000     0.000 r  num_a[24] (IN)
-                         net (fo=0)                   0.000     0.000    num_a[24]
-    N18                  IBUF (Prop_ibuf_I_O)         0.977     0.977 r  num_a_IBUF[24]_inst/O
-                         net (fo=11, routed)          2.273     3.250    align_exp/num_a_IBUF[24]
-    SLICE_X42Y52         LUT2 (Prop_lut2_I1_O)        0.124     3.374 r  align_exp/mant_b_aligned2_carry_i_3/O
-                         net (fo=1, routed)           0.000     3.374    align_exp/mant_b_aligned2_carry_i_3_n_0
-    SLICE_X42Y52         CARRY4 (Prop_carry4_S[1]_CO[3])
-                                                      0.533     3.907 r  align_exp/mant_b_aligned2_carry/CO[3]
-                         net (fo=1, routed)           0.000     3.907    align_exp/mant_b_aligned2_carry_n_0
-    SLICE_X42Y53         CARRY4 (Prop_carry4_CI_O[0])
-                                                      0.219     4.126 r  align_exp/mant_b_aligned2_carry__0/O[0]
-                         net (fo=35, routed)          2.300     6.427    align_exp/mant_b_aligned20_out[4]
-    SLICE_X43Y43         LUT5 (Prop_lut5_I3_O)        0.295     6.722 r  align_exp/i__carry_i_10__0/O
-                         net (fo=2, routed)           0.972     7.693    align_exp/i__carry_i_10__0_n_0
-    SLICE_X39Y44         LUT6 (Prop_lut6_I5_O)        0.124     7.817 r  align_exp/mant_out0_carry_i_26/O
-                         net (fo=2, routed)           0.805     8.622    align_exp/mant_out0_carry_i_26_n_0
-    SLICE_X40Y44         LUT3 (Prop_lut3_I0_O)        0.152     8.774 r  align_exp/mant_out0_carry_i_18/O
-                         net (fo=2, routed)           0.829     9.603    align_exp/mant_out0_carry_i_18_n_0
-    SLICE_X41Y43         LUT6 (Prop_lut6_I2_O)        0.332     9.935 r  align_exp/mant_out0_carry_i_3/O
-                         net (fo=8, routed)           0.666    10.601    align_exp/mant_b_aligned[0]
-    SLICE_X41Y45         LUT4 (Prop_lut4_I2_O)        0.124    10.725 r  align_exp/i__carry_i_8__5/O
-                         net (fo=1, routed)           0.000    10.725    add_sub/mant_out1_inferred__0/i__carry__0_1[0]
-    SLICE_X41Y45         CARRY4 (Prop_carry4_S[0]_CO[3])
-                                                      0.532    11.257 r  add_sub/mant_out1_inferred__0/i__carry/CO[3]
-                         net (fo=1, routed)           0.000    11.257    add_sub/mant_out1_inferred__0/i__carry_n_0
-    SLICE_X41Y46         CARRY4 (Prop_carry4_CI_CO[3])
-                                                      0.114    11.371 r  add_sub/mant_out1_inferred__0/i__carry__0/CO[3]
-                         net (fo=1, routed)           0.000    11.371    add_sub/mant_out1_inferred__0/i__carry__0_n_0
-    SLICE_X41Y47         CARRY4 (Prop_carry4_CI_CO[3])
-                                                      0.114    11.485 r  add_sub/mant_out1_inferred__0/i__carry__1/CO[3]
-                         net (fo=26, routed)          2.069    13.554    align_exp/result[31][0]
-    SLICE_X35Y47         LUT6 (Prop_lut6_I3_O)        0.124    13.678 r  align_exp/result_OBUF[8]_inst_i_2/O
-                         net (fo=9, routed)           1.805    15.484    align_exp/result_OBUF[8]_inst_i_2_n_0
-    SLICE_X37Y56         LUT4 (Prop_lut4_I0_O)        0.150    15.634 f  align_exp/exp_out0_carry_i_12/O
-                         net (fo=6, routed)           0.904    16.538    align_exp/exp_out0_carry_i_12_n_0
-    SLICE_X36Y56         LUT6 (Prop_lut6_I3_O)        0.326    16.864 r  align_exp/exp_out0_carry_i_9/O
-                         net (fo=18, routed)          1.099    17.963    align_exp/exp_out0_carry_i_9_n_0
-    SLICE_X37Y55         LUT3 (Prop_lut3_I1_O)        0.152    18.115 r  align_exp/result_OBUF[19]_inst_i_4/O
-                         net (fo=2, routed)           0.706    18.821    align_exp/result_OBUF[19]_inst_i_4_n_0
-    SLICE_X36Y55         LUT6 (Prop_lut6_I5_O)        0.326    19.147 r  align_exp/result_OBUF[19]_inst_i_3/O
-                         net (fo=2, routed)           1.117    20.264    align_exp/result_OBUF[19]_inst_i_3_n_0
-    SLICE_X39Y57         LUT5 (Prop_lut5_I2_O)        0.124    20.388 r  align_exp/result_OBUF[18]_inst_i_1/O
-                         net (fo=1, routed)           2.538    22.926    result_OBUF[18]
-    M18                  OBUF (Prop_obuf_I_O)         2.682    25.608 r  result_OBUF[18]_inst/O
-                         net (fo=0)                   0.000    25.608    result[18]
-    M18                                                               r  result[18] (OUT)
+    SLICE_X40Y46         FDCE                         0.000     0.000 r  align_exp/mant_b_aligned_reg[1]/C
+    SLICE_X40Y46         FDCE (Prop_fdce_C_Q)         0.456     0.456 r  align_exp/mant_b_aligned_reg[1]/Q
+                         net (fo=9, routed)           2.376     2.832    align_exp/mant_b_aligned_reg[23]_0[1]
+    SLICE_X40Y47         LUT4 (Prop_lut4_I2_O)        0.124     2.956 r  align_exp/mant_out1_carry_i_8/O
+                         net (fo=1, routed)           0.000     2.956    add_sub/S[0]
+    SLICE_X40Y47         CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.532     3.488 r  add_sub/mant_out1_carry/CO[3]
+                         net (fo=1, routed)           0.000     3.488    add_sub/mant_out1_carry_n_0
+    SLICE_X40Y48         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114     3.602 r  add_sub/mant_out1_carry__0/CO[3]
+                         net (fo=1, routed)           0.000     3.602    add_sub/mant_out1_carry__0_n_0
+    SLICE_X40Y49         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114     3.716 r  add_sub/mant_out1_carry__1/CO[3]
+                         net (fo=26, routed)          1.790     5.506    add_sub/mant_b_aligned_reg[22][0]
+    SLICE_X35Y48         LUT4 (Prop_lut4_I2_O)        0.124     5.630 r  add_sub/mant_out[7]_i_12/O
+                         net (fo=1, routed)           1.019     6.649    align_exp/mant_out_reg[7]_0
+    SLICE_X38Y48         LUT6 (Prop_lut6_I1_O)        0.124     6.773 r  align_exp/mant_out[7]_i_8/O
+                         net (fo=1, routed)           0.000     6.773    unpack/mant_out_reg[7][1]
+    SLICE_X38Y48         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533     7.306 r  unpack/mant_out_reg[7]_i_1/CO[3]
+                         net (fo=1, routed)           0.000     7.306    unpack/mant_out_reg[7]_i_1_n_0
+    SLICE_X38Y49         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.423 r  unpack/mant_out_reg[11]_i_1/CO[3]
+                         net (fo=1, routed)           0.001     7.424    unpack/mant_out_reg[11]_i_1_n_0
+    SLICE_X38Y50         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.541 r  unpack/mant_out_reg[15]_i_1/CO[3]
+                         net (fo=1, routed)           0.000     7.541    unpack/mant_out_reg[15]_i_1_n_0
+    SLICE_X38Y51         CARRY4 (Prop_carry4_CI_O[3])
+                                                      0.315     7.856 r  unpack/mant_out_reg[19]_i_1/O[3]
+                         net (fo=1, routed)           0.000     7.856    add_sub/out[19]
+    SLICE_X38Y51         FDCE                                         r  add_sub/mant_out_reg[19]/D
   -------------------------------------------------------------------    -------------------
 
 Slack:                    inf
-  Source:                 num_a[24]
-                            (input port)
-  Destination:            result[14]
-                            (output port)
+  Source:                 align_exp/mant_b_aligned_reg[1]/C
+                            (rising edge-triggered cell FDCE)
+  Destination:            add_sub/mant_out_reg[18]/D
   Path Group:             (none)
   Path Type:              Max at Slow Process Corner
-  Data Path Delay:        25.443ns  (logic 7.487ns (29.426%)  route 17.956ns (70.574%))
-  Logic Levels:           19  (CARRY4=5 IBUF=1 LUT2=1 LUT3=2 LUT4=2 LUT5=2 LUT6=5 OBUF=1)
+  Data Path Delay:        7.780ns  (logic 2.594ns (33.342%)  route 5.186ns (66.658%))
+  Logic Levels:           11  (CARRY4=7 FDCE=1 LUT4=2 LUT6=1)
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
-    N18                                               0.000     0.000 r  num_a[24] (IN)
-                         net (fo=0)                   0.000     0.000    num_a[24]
-    N18                  IBUF (Prop_ibuf_I_O)         0.977     0.977 r  num_a_IBUF[24]_inst/O
-                         net (fo=11, routed)          2.273     3.250    align_exp/num_a_IBUF[24]
-    SLICE_X42Y52         LUT2 (Prop_lut2_I1_O)        0.124     3.374 r  align_exp/mant_b_aligned2_carry_i_3/O
-                         net (fo=1, routed)           0.000     3.374    align_exp/mant_b_aligned2_carry_i_3_n_0
-    SLICE_X42Y52         CARRY4 (Prop_carry4_S[1]_CO[3])
-                                                      0.533     3.907 r  align_exp/mant_b_aligned2_carry/CO[3]
-                         net (fo=1, routed)           0.000     3.907    align_exp/mant_b_aligned2_carry_n_0
-    SLICE_X42Y53         CARRY4 (Prop_carry4_CI_O[0])
-                                                      0.219     4.126 r  align_exp/mant_b_aligned2_carry__0/O[0]
-                         net (fo=35, routed)          2.300     6.427    align_exp/mant_b_aligned20_out[4]
-    SLICE_X43Y43         LUT5 (Prop_lut5_I3_O)        0.295     6.722 r  align_exp/i__carry_i_10__0/O
-                         net (fo=2, routed)           0.972     7.693    align_exp/i__carry_i_10__0_n_0
-    SLICE_X39Y44         LUT6 (Prop_lut6_I5_O)        0.124     7.817 r  align_exp/mant_out0_carry_i_26/O
-                         net (fo=2, routed)           0.805     8.622    align_exp/mant_out0_carry_i_26_n_0
-    SLICE_X40Y44         LUT3 (Prop_lut3_I0_O)        0.152     8.774 r  align_exp/mant_out0_carry_i_18/O
-                         net (fo=2, routed)           0.829     9.603    align_exp/mant_out0_carry_i_18_n_0
-    SLICE_X41Y43         LUT6 (Prop_lut6_I2_O)        0.332     9.935 r  align_exp/mant_out0_carry_i_3/O
-                         net (fo=8, routed)           0.666    10.601    align_exp/mant_b_aligned[0]
-    SLICE_X41Y45         LUT4 (Prop_lut4_I2_O)        0.124    10.725 r  align_exp/i__carry_i_8__5/O
-                         net (fo=1, routed)           0.000    10.725    add_sub/mant_out1_inferred__0/i__carry__0_1[0]
-    SLICE_X41Y45         CARRY4 (Prop_carry4_S[0]_CO[3])
-                                                      0.532    11.257 r  add_sub/mant_out1_inferred__0/i__carry/CO[3]
-                         net (fo=1, routed)           0.000    11.257    add_sub/mant_out1_inferred__0/i__carry_n_0
-    SLICE_X41Y46         CARRY4 (Prop_carry4_CI_CO[3])
-                                                      0.114    11.371 r  add_sub/mant_out1_inferred__0/i__carry__0/CO[3]
-                         net (fo=1, routed)           0.000    11.371    add_sub/mant_out1_inferred__0/i__carry__0_n_0
-    SLICE_X41Y47         CARRY4 (Prop_carry4_CI_CO[3])
-                                                      0.114    11.485 r  add_sub/mant_out1_inferred__0/i__carry__1/CO[3]
-                         net (fo=26, routed)          2.069    13.554    align_exp/result[31][0]
-    SLICE_X35Y47         LUT6 (Prop_lut6_I3_O)        0.124    13.678 r  align_exp/result_OBUF[8]_inst_i_2/O
-                         net (fo=9, routed)           1.805    15.484    align_exp/result_OBUF[8]_inst_i_2_n_0
-    SLICE_X37Y56         LUT4 (Prop_lut4_I0_O)        0.150    15.634 f  align_exp/exp_out0_carry_i_12/O
-                         net (fo=6, routed)           0.904    16.538    align_exp/exp_out0_carry_i_12_n_0
-    SLICE_X36Y56         LUT6 (Prop_lut6_I3_O)        0.326    16.864 r  align_exp/exp_out0_carry_i_9/O
-                         net (fo=18, routed)          1.557    18.421    align_exp/exp_out0_carry_i_9_n_0
-    SLICE_X40Y54         LUT6 (Prop_lut6_I4_O)        0.124    18.545 r  align_exp/result_OBUF[15]_inst_i_4/O
-                         net (fo=2, routed)           0.851    19.396    align_exp/result_OBUF[15]_inst_i_4_n_0
-    SLICE_X40Y55         LUT3 (Prop_lut3_I2_O)        0.152    19.548 r  align_exp/result_OBUF[15]_inst_i_3/O
-                         net (fo=2, routed)           0.591    20.140    align_exp/result_OBUF[15]_inst_i_3_n_0
-    SLICE_X40Y56         LUT5 (Prop_lut5_I2_O)        0.332    20.472 r  align_exp/result_OBUF[14]_inst_i_1/O
-                         net (fo=1, routed)           2.333    22.804    result_OBUF[14]
-    J19                  OBUF (Prop_obuf_I_O)         2.639    25.443 r  result_OBUF[14]_inst/O
-                         net (fo=0)                   0.000    25.443    result[14]
-    J19                                                               r  result[14] (OUT)
+    SLICE_X40Y46         FDCE                         0.000     0.000 r  align_exp/mant_b_aligned_reg[1]/C
+    SLICE_X40Y46         FDCE (Prop_fdce_C_Q)         0.456     0.456 r  align_exp/mant_b_aligned_reg[1]/Q
+                         net (fo=9, routed)           2.376     2.832    align_exp/mant_b_aligned_reg[23]_0[1]
+    SLICE_X40Y47         LUT4 (Prop_lut4_I2_O)        0.124     2.956 r  align_exp/mant_out1_carry_i_8/O
+                         net (fo=1, routed)           0.000     2.956    add_sub/S[0]
+    SLICE_X40Y47         CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.532     3.488 r  add_sub/mant_out1_carry/CO[3]
+                         net (fo=1, routed)           0.000     3.488    add_sub/mant_out1_carry_n_0
+    SLICE_X40Y48         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114     3.602 r  add_sub/mant_out1_carry__0/CO[3]
+                         net (fo=1, routed)           0.000     3.602    add_sub/mant_out1_carry__0_n_0
+    SLICE_X40Y49         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114     3.716 r  add_sub/mant_out1_carry__1/CO[3]
+                         net (fo=26, routed)          1.790     5.506    add_sub/mant_b_aligned_reg[22][0]
+    SLICE_X35Y48         LUT4 (Prop_lut4_I2_O)        0.124     5.630 r  add_sub/mant_out[7]_i_12/O
+                         net (fo=1, routed)           1.019     6.649    align_exp/mant_out_reg[7]_0
+    SLICE_X38Y48         LUT6 (Prop_lut6_I1_O)        0.124     6.773 r  align_exp/mant_out[7]_i_8/O
+                         net (fo=1, routed)           0.000     6.773    unpack/mant_out_reg[7][1]
+    SLICE_X38Y48         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533     7.306 r  unpack/mant_out_reg[7]_i_1/CO[3]
+                         net (fo=1, routed)           0.000     7.306    unpack/mant_out_reg[7]_i_1_n_0
+    SLICE_X38Y49         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.423 r  unpack/mant_out_reg[11]_i_1/CO[3]
+                         net (fo=1, routed)           0.001     7.424    unpack/mant_out_reg[11]_i_1_n_0
+    SLICE_X38Y50         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.541 r  unpack/mant_out_reg[15]_i_1/CO[3]
+                         net (fo=1, routed)           0.000     7.541    unpack/mant_out_reg[15]_i_1_n_0
+    SLICE_X38Y51         CARRY4 (Prop_carry4_CI_O[2])
+                                                      0.239     7.780 r  unpack/mant_out_reg[19]_i_1/O[2]
+                         net (fo=1, routed)           0.000     7.780    add_sub/out[18]
+    SLICE_X38Y51         FDCE                                         r  add_sub/mant_out_reg[18]/D
   -------------------------------------------------------------------    -------------------
 
 Slack:                    inf
-  Source:                 num_a[24]
-                            (input port)
-  Destination:            result[26]
-                            (output port)
+  Source:                 align_exp/mant_b_aligned_reg[1]/C
+                            (rising edge-triggered cell FDCE)
+  Destination:            add_sub/mant_out_reg[16]/D
   Path Group:             (none)
   Path Type:              Max at Slow Process Corner
-  Data Path Delay:        25.414ns  (logic 7.829ns (30.806%)  route 17.585ns (69.194%))
-  Logic Levels:           20  (CARRY4=6 IBUF=1 LUT2=2 LUT3=1 LUT4=2 LUT5=2 LUT6=5 OBUF=1)
+  Data Path Delay:        7.760ns  (logic 2.574ns (33.170%)  route 5.186ns (66.830%))
+  Logic Levels:           11  (CARRY4=7 FDCE=1 LUT4=2 LUT6=1)
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
-    N18                                               0.000     0.000 r  num_a[24] (IN)
-                         net (fo=0)                   0.000     0.000    num_a[24]
-    N18                  IBUF (Prop_ibuf_I_O)         0.977     0.977 r  num_a_IBUF[24]_inst/O
-                         net (fo=11, routed)          2.273     3.250    align_exp/num_a_IBUF[24]
-    SLICE_X42Y52         LUT2 (Prop_lut2_I1_O)        0.124     3.374 r  align_exp/mant_b_aligned2_carry_i_3/O
-                         net (fo=1, routed)           0.000     3.374    align_exp/mant_b_aligned2_carry_i_3_n_0
-    SLICE_X42Y52         CARRY4 (Prop_carry4_S[1]_CO[3])
-                                                      0.533     3.907 r  align_exp/mant_b_aligned2_carry/CO[3]
-                         net (fo=1, routed)           0.000     3.907    align_exp/mant_b_aligned2_carry_n_0
-    SLICE_X42Y53         CARRY4 (Prop_carry4_CI_O[0])
-                                                      0.219     4.126 r  align_exp/mant_b_aligned2_carry__0/O[0]
-                         net (fo=35, routed)          2.300     6.427    align_exp/mant_b_aligned20_out[4]
-    SLICE_X43Y43         LUT5 (Prop_lut5_I3_O)        0.295     6.722 r  align_exp/i__carry_i_10__0/O
-                         net (fo=2, routed)           0.972     7.693    align_exp/i__carry_i_10__0_n_0
-    SLICE_X39Y44         LUT6 (Prop_lut6_I5_O)        0.124     7.817 r  align_exp/mant_out0_carry_i_26/O
-                         net (fo=2, routed)           0.805     8.622    align_exp/mant_out0_carry_i_26_n_0
-    SLICE_X40Y44         LUT3 (Prop_lut3_I0_O)        0.152     8.774 r  align_exp/mant_out0_carry_i_18/O
-                         net (fo=2, routed)           0.829     9.603    align_exp/mant_out0_carry_i_18_n_0
-    SLICE_X41Y43         LUT6 (Prop_lut6_I2_O)        0.332     9.935 r  align_exp/mant_out0_carry_i_3/O
-                         net (fo=8, routed)           0.679    10.614    align_exp/mant_b_aligned[0]
-    SLICE_X40Y45         LUT4 (Prop_lut4_I2_O)        0.124    10.738 r  align_exp/mant_out1_carry_i_8/O
-                         net (fo=1, routed)           0.000    10.738    add_sub/S[0]
-    SLICE_X40Y45         CARRY4 (Prop_carry4_S[0]_CO[3])
-                                                      0.532    11.270 r  add_sub/mant_out1_carry/CO[3]
-                         net (fo=1, routed)           0.000    11.270    add_sub/mant_out1_carry_n_0
-    SLICE_X40Y46         CARRY4 (Prop_carry4_CI_CO[3])
-                                                      0.114    11.384 r  add_sub/mant_out1_carry__0/CO[3]
-                         net (fo=1, routed)           0.000    11.384    add_sub/mant_out1_carry__0_n_0
-    SLICE_X40Y47         CARRY4 (Prop_carry4_CI_CO[3])
-                                                      0.114    11.498 f  add_sub/mant_out1_carry__1/CO[3]
-                         net (fo=26, routed)          1.442    12.941    align_exp/CO[0]
-    SLICE_X38Y44         LUT6 (Prop_lut6_I4_O)        0.124    13.065 f  align_exp/result_OBUF[3]_inst_i_2/O
-                         net (fo=12, routed)          2.326    15.390    align_exp/result_OBUF[3]_inst_i_2_n_0
-    SLICE_X37Y57         LUT2 (Prop_lut2_I0_O)        0.124    15.514 r  align_exp/result_OBUF[2]_inst_i_12/O
-                         net (fo=1, routed)           0.810    16.324    align_exp/result_OBUF[2]_inst_i_12_n_0
-    SLICE_X37Y55         LUT6 (Prop_lut6_I2_O)        0.124    16.448 r  align_exp/result_OBUF[2]_inst_i_6/O
-                         net (fo=1, routed)           0.843    17.291    align_exp/result_OBUF[2]_inst_i_6_n_0
-    SLICE_X37Y54         LUT6 (Prop_lut6_I1_O)        0.124    17.415 r  align_exp/result_OBUF[2]_inst_i_3/O
-                         net (fo=25, routed)          0.955    18.369    align_exp/normalize/p_0_in[1]
-    SLICE_X43Y53         LUT4 (Prop_lut4_I3_O)        0.124    18.493 r  align_exp/exp_out0_carry_i_7/O
-                         net (fo=1, routed)           0.000    18.493    normalize/result_OBUF[23]_inst_i_1_0[1]
-    SLICE_X43Y53         CARRY4 (Prop_carry4_S[1]_O[3])
-                                                      0.640    19.133 r  normalize/exp_out0_carry/O[3]
-                         net (fo=1, routed)           0.317    19.450    align_exp/result[26][3]
-    SLICE_X42Y54         LUT5 (Prop_lut5_I1_O)        0.306    19.756 r  align_exp/result_OBUF[26]_inst_i_1/O
-                         net (fo=1, routed)           3.035    22.791    result_OBUF[26]
-    D20                  OBUF (Prop_obuf_I_O)         2.623    25.414 r  result_OBUF[26]_inst/O
-                         net (fo=0)                   0.000    25.414    result[26]
-    D20                                                               r  result[26] (OUT)
+    SLICE_X40Y46         FDCE                         0.000     0.000 r  align_exp/mant_b_aligned_reg[1]/C
+    SLICE_X40Y46         FDCE (Prop_fdce_C_Q)         0.456     0.456 r  align_exp/mant_b_aligned_reg[1]/Q
+                         net (fo=9, routed)           2.376     2.832    align_exp/mant_b_aligned_reg[23]_0[1]
+    SLICE_X40Y47         LUT4 (Prop_lut4_I2_O)        0.124     2.956 r  align_exp/mant_out1_carry_i_8/O
+                         net (fo=1, routed)           0.000     2.956    add_sub/S[0]
+    SLICE_X40Y47         CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.532     3.488 r  add_sub/mant_out1_carry/CO[3]
+                         net (fo=1, routed)           0.000     3.488    add_sub/mant_out1_carry_n_0
+    SLICE_X40Y48         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114     3.602 r  add_sub/mant_out1_carry__0/CO[3]
+                         net (fo=1, routed)           0.000     3.602    add_sub/mant_out1_carry__0_n_0
+    SLICE_X40Y49         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114     3.716 r  add_sub/mant_out1_carry__1/CO[3]
+                         net (fo=26, routed)          1.790     5.506    add_sub/mant_b_aligned_reg[22][0]
+    SLICE_X35Y48         LUT4 (Prop_lut4_I2_O)        0.124     5.630 r  add_sub/mant_out[7]_i_12/O
+                         net (fo=1, routed)           1.019     6.649    align_exp/mant_out_reg[7]_0
+    SLICE_X38Y48         LUT6 (Prop_lut6_I1_O)        0.124     6.773 r  align_exp/mant_out[7]_i_8/O
+                         net (fo=1, routed)           0.000     6.773    unpack/mant_out_reg[7][1]
+    SLICE_X38Y48         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533     7.306 r  unpack/mant_out_reg[7]_i_1/CO[3]
+                         net (fo=1, routed)           0.000     7.306    unpack/mant_out_reg[7]_i_1_n_0
+    SLICE_X38Y49         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.423 r  unpack/mant_out_reg[11]_i_1/CO[3]
+                         net (fo=1, routed)           0.001     7.424    unpack/mant_out_reg[11]_i_1_n_0
+    SLICE_X38Y50         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.541 r  unpack/mant_out_reg[15]_i_1/CO[3]
+                         net (fo=1, routed)           0.000     7.541    unpack/mant_out_reg[15]_i_1_n_0
+    SLICE_X38Y51         CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.219     7.760 r  unpack/mant_out_reg[19]_i_1/O[0]
+                         net (fo=1, routed)           0.000     7.760    add_sub/out[16]
+    SLICE_X38Y51         FDCE                                         r  add_sub/mant_out_reg[16]/D
   -------------------------------------------------------------------    -------------------
 
 Slack:                    inf
-  Source:                 num_a[24]
-                            (input port)
-  Destination:            result[16]
-                            (output port)
+  Source:                 align_exp/mant_b_aligned_reg[1]/C
+                            (rising edge-triggered cell FDCE)
+  Destination:            add_sub/mant_out_reg[13]/D
   Path Group:             (none)
   Path Type:              Max at Slow Process Corner
-  Data Path Delay:        25.361ns  (logic 7.501ns (29.576%)  route 17.860ns (70.424%))
-  Logic Levels:           19  (CARRY4=5 IBUF=1 LUT2=1 LUT3=2 LUT4=2 LUT5=2 LUT6=5 OBUF=1)
+  Data Path Delay:        7.747ns  (logic 2.561ns (33.058%)  route 5.186ns (66.942%))
+  Logic Levels:           10  (CARRY4=6 FDCE=1 LUT4=2 LUT6=1)
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
-    N18                                               0.000     0.000 r  num_a[24] (IN)
-                         net (fo=0)                   0.000     0.000    num_a[24]
-    N18                  IBUF (Prop_ibuf_I_O)         0.977     0.977 r  num_a_IBUF[24]_inst/O
-                         net (fo=11, routed)          2.273     3.250    align_exp/num_a_IBUF[24]
-    SLICE_X42Y52         LUT2 (Prop_lut2_I1_O)        0.124     3.374 r  align_exp/mant_b_aligned2_carry_i_3/O
-                         net (fo=1, routed)           0.000     3.374    align_exp/mant_b_aligned2_carry_i_3_n_0
-    SLICE_X42Y52         CARRY4 (Prop_carry4_S[1]_CO[3])
-                                                      0.533     3.907 r  align_exp/mant_b_aligned2_carry/CO[3]
-                         net (fo=1, routed)           0.000     3.907    align_exp/mant_b_aligned2_carry_n_0
-    SLICE_X42Y53         CARRY4 (Prop_carry4_CI_O[0])
-                                                      0.219     4.126 r  align_exp/mant_b_aligned2_carry__0/O[0]
-                         net (fo=35, routed)          2.300     6.427    align_exp/mant_b_aligned20_out[4]
-    SLICE_X43Y43         LUT5 (Prop_lut5_I3_O)        0.295     6.722 r  align_exp/i__carry_i_10__0/O
-                         net (fo=2, routed)           0.972     7.693    align_exp/i__carry_i_10__0_n_0
-    SLICE_X39Y44         LUT6 (Prop_lut6_I5_O)        0.124     7.817 r  align_exp/mant_out0_carry_i_26/O
-                         net (fo=2, routed)           0.805     8.622    align_exp/mant_out0_carry_i_26_n_0
-    SLICE_X40Y44         LUT3 (Prop_lut3_I0_O)        0.152     8.774 r  align_exp/mant_out0_carry_i_18/O
-                         net (fo=2, routed)           0.829     9.603    align_exp/mant_out0_carry_i_18_n_0
-    SLICE_X41Y43         LUT6 (Prop_lut6_I2_O)        0.332     9.935 r  align_exp/mant_out0_carry_i_3/O
-                         net (fo=8, routed)           0.666    10.601    align_exp/mant_b_aligned[0]
-    SLICE_X41Y45         LUT4 (Prop_lut4_I2_O)        0.124    10.725 r  align_exp/i__carry_i_8__5/O
-                         net (fo=1, routed)           0.000    10.725    add_sub/mant_out1_inferred__0/i__carry__0_1[0]
-    SLICE_X41Y45         CARRY4 (Prop_carry4_S[0]_CO[3])
-                                                      0.532    11.257 r  add_sub/mant_out1_inferred__0/i__carry/CO[3]
-                         net (fo=1, routed)           0.000    11.257    add_sub/mant_out1_inferred__0/i__carry_n_0
-    SLICE_X41Y46         CARRY4 (Prop_carry4_CI_CO[3])
-                                                      0.114    11.371 r  add_sub/mant_out1_inferred__0/i__carry__0/CO[3]
-                         net (fo=1, routed)           0.000    11.371    add_sub/mant_out1_inferred__0/i__carry__0_n_0
-    SLICE_X41Y47         CARRY4 (Prop_carry4_CI_CO[3])
-                                                      0.114    11.485 r  add_sub/mant_out1_inferred__0/i__carry__1/CO[3]
-                         net (fo=26, routed)          2.069    13.554    align_exp/result[31][0]
-    SLICE_X35Y47         LUT6 (Prop_lut6_I3_O)        0.124    13.678 r  align_exp/result_OBUF[8]_inst_i_2/O
-                         net (fo=9, routed)           1.805    15.484    align_exp/result_OBUF[8]_inst_i_2_n_0
-    SLICE_X37Y56         LUT4 (Prop_lut4_I0_O)        0.150    15.634 f  align_exp/exp_out0_carry_i_12/O
-                         net (fo=6, routed)           0.904    16.538    align_exp/exp_out0_carry_i_12_n_0
-    SLICE_X36Y56         LUT6 (Prop_lut6_I3_O)        0.326    16.864 r  align_exp/exp_out0_carry_i_9/O
-                         net (fo=18, routed)          1.090    17.954    align_exp/exp_out0_carry_i_9_n_0
-    SLICE_X39Y55         LUT6 (Prop_lut6_I4_O)        0.124    18.078 r  align_exp/result_OBUF[16]_inst_i_4/O
-                         net (fo=2, routed)           0.815    18.893    align_exp/result_OBUF[16]_inst_i_4_n_0
-    SLICE_X40Y56         LUT3 (Prop_lut3_I2_O)        0.152    19.045 r  align_exp/result_OBUF[16]_inst_i_3/O
-                         net (fo=2, routed)           0.834    19.879    align_exp/result_OBUF[16]_inst_i_3_n_0
-    SLICE_X39Y56         LUT5 (Prop_lut5_I4_O)        0.326    20.205 r  align_exp/result_OBUF[16]_inst_i_1/O
-                         net (fo=1, routed)           2.498    22.703    result_OBUF[16]
-    L20                  OBUF (Prop_obuf_I_O)         2.659    25.361 r  result_OBUF[16]_inst/O
-                         net (fo=0)                   0.000    25.361    result[16]
-    L20                                                               r  result[16] (OUT)
+    SLICE_X40Y46         FDCE                         0.000     0.000 r  align_exp/mant_b_aligned_reg[1]/C
+    SLICE_X40Y46         FDCE (Prop_fdce_C_Q)         0.456     0.456 r  align_exp/mant_b_aligned_reg[1]/Q
+                         net (fo=9, routed)           2.376     2.832    align_exp/mant_b_aligned_reg[23]_0[1]
+    SLICE_X40Y47         LUT4 (Prop_lut4_I2_O)        0.124     2.956 r  align_exp/mant_out1_carry_i_8/O
+                         net (fo=1, routed)           0.000     2.956    add_sub/S[0]
+    SLICE_X40Y47         CARRY4 (Prop_carry4_S[0]_CO[3])
+                                                      0.532     3.488 r  add_sub/mant_out1_carry/CO[3]
+                         net (fo=1, routed)           0.000     3.488    add_sub/mant_out1_carry_n_0
+    SLICE_X40Y48         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114     3.602 r  add_sub/mant_out1_carry__0/CO[3]
+                         net (fo=1, routed)           0.000     3.602    add_sub/mant_out1_carry__0_n_0
+    SLICE_X40Y49         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.114     3.716 r  add_sub/mant_out1_carry__1/CO[3]
+                         net (fo=26, routed)          1.790     5.506    add_sub/mant_b_aligned_reg[22][0]
+    SLICE_X35Y48         LUT4 (Prop_lut4_I2_O)        0.124     5.630 r  add_sub/mant_out[7]_i_12/O
+                         net (fo=1, routed)           1.019     6.649    align_exp/mant_out_reg[7]_0
+    SLICE_X38Y48         LUT6 (Prop_lut6_I1_O)        0.124     6.773 r  align_exp/mant_out[7]_i_8/O
+                         net (fo=1, routed)           0.000     6.773    unpack/mant_out_reg[7][1]
+    SLICE_X38Y48         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533     7.306 r  unpack/mant_out_reg[7]_i_1/CO[3]
+                         net (fo=1, routed)           0.000     7.306    unpack/mant_out_reg[7]_i_1_n_0
+    SLICE_X38Y49         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     7.423 r  unpack/mant_out_reg[11]_i_1/CO[3]
+                         net (fo=1, routed)           0.001     7.424    unpack/mant_out_reg[11]_i_1_n_0
+    SLICE_X38Y50         CARRY4 (Prop_carry4_CI_O[1])
+                                                      0.323     7.747 r  unpack/mant_out_reg[15]_i_1/O[1]
+                         net (fo=1, routed)           0.000     7.747    add_sub/out[13]
+    SLICE_X38Y50         FDCE                                         r  add_sub/mant_out_reg[13]/D
   -------------------------------------------------------------------    -------------------
 
 
@@ -851,251 +680,187 @@ Slack:                    inf
 Min Delay Paths
 --------------------------------------------------------------------------------------
 Slack:                    inf
-  Source:                 num_b[23]
-                            (input port)
-  Destination:            result[23]
-                            (output port)
+  Source:                 control_unit/FSM_onehot_current_state_reg[3]/C
+                            (rising edge-triggered cell FDCE)
+  Destination:            add_sub/ready_reg/D
   Path Group:             (none)
   Path Type:              Min at Fast Process Corner
-  Data Path Delay:        2.613ns  (logic 1.374ns (52.590%)  route 1.239ns (47.410%))
-  Logic Levels:           3  (IBUF=1 LUT6=1 OBUF=1)
+  Data Path Delay:        0.219ns  (logic 0.141ns (64.352%)  route 0.078ns (35.648%))
+  Logic Levels:           1  (FDCE=1)
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
-    L15                                               0.000     0.000 f  num_b[23] (IN)
-                         net (fo=0)                   0.000     0.000    num_b[23]
-    L15                  IBUF (Prop_ibuf_I_O)         0.205     0.205 f  num_b_IBUF[23]_inst/O
-                         net (fo=11, routed)          0.450     0.655    align_exp/num_b_IBUF[23]
-    SLICE_X41Y53         LUT6 (Prop_lut6_I4_O)        0.045     0.700 r  align_exp/result_OBUF[23]_inst_i_1/O
-                         net (fo=1, routed)           0.789     1.488    result_OBUF[23]
-    F16                  OBUF (Prop_obuf_I_O)         1.124     2.613 r  result_OBUF[23]_inst/O
-                         net (fo=0)                   0.000     2.613    result[23]
-    F16                                                               r  result[23] (OUT)
+    SLICE_X41Y55         FDCE                         0.000     0.000 r  control_unit/FSM_onehot_current_state_reg[3]/C
+    SLICE_X41Y55         FDCE (Prop_fdce_C_Q)         0.141     0.141 r  control_unit/FSM_onehot_current_state_reg[3]/Q
+                         net (fo=4, routed)           0.078     0.219    add_sub/Q[0]
+    SLICE_X41Y55         FDCE                                         r  add_sub/ready_reg/D
   -------------------------------------------------------------------    -------------------
 
 Slack:                    inf
-  Source:                 num_b[25]
-                            (input port)
-  Destination:            result[25]
-                            (output port)
+  Source:                 normalize/mant_shifted_reg[5]/C
+                            (rising edge-triggered cell FDRE)
+  Destination:            normalize/mant_out_reg[5]/D
   Path Group:             (none)
   Path Type:              Min at Fast Process Corner
-  Data Path Delay:        2.739ns  (logic 1.405ns (51.279%)  route 1.334ns (48.721%))
-  Logic Levels:           4  (IBUF=1 LUT3=1 LUT6=1 OBUF=1)
+  Data Path Delay:        0.273ns  (logic 0.186ns (68.212%)  route 0.087ns (31.788%))
+  Logic Levels:           2  (FDRE=1 LUT4=1)
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
-    N16                                               0.000     0.000 r  num_b[25] (IN)
-                         net (fo=0)                   0.000     0.000    num_b[25]
-    N16                  IBUF (Prop_ibuf_I_O)         0.188     0.188 r  num_b_IBUF[25]_inst/O
-                         net (fo=11, routed)          0.437     0.625    align_exp/num_b_IBUF[25]
-    SLICE_X42Y54         LUT3 (Prop_lut3_I2_O)        0.045     0.670 r  align_exp/result_OBUF[25]_inst_i_2/O
-                         net (fo=1, routed)           0.091     0.761    align_exp/exp_a_aligned[2]
-    SLICE_X42Y54         LUT6 (Prop_lut6_I2_O)        0.045     0.806 r  align_exp/result_OBUF[25]_inst_i_1/O
-                         net (fo=1, routed)           0.807     1.613    result_OBUF[25]
-    E18                  OBUF (Prop_obuf_I_O)         1.126     2.739 r  result_OBUF[25]_inst/O
-                         net (fo=0)                   0.000     2.739    result[25]
-    E18                                                               r  result[25] (OUT)
+    SLICE_X40Y61         FDRE                         0.000     0.000 r  normalize/mant_shifted_reg[5]/C
+    SLICE_X40Y61         FDRE (Prop_fdre_C_Q)         0.141     0.141 r  normalize/mant_shifted_reg[5]/Q
+                         net (fo=1, routed)           0.087     0.228    add_sub/mant_out_reg[22]_0[5]
+    SLICE_X41Y61         LUT4 (Prop_lut4_I2_O)        0.045     0.273 r  add_sub/mant_out[5]_i_1/O
+                         net (fo=1, routed)           0.000     0.273    normalize/mant_out_reg[22]_0[5]
+    SLICE_X41Y61         FDCE                                         r  normalize/mant_out_reg[5]/D
   -------------------------------------------------------------------    -------------------
 
 Slack:                    inf
-  Source:                 num_b[31]
-                            (input port)
-  Destination:            result[31]
-                            (output port)
+  Source:                 pack/ready_reg/C
+                            (rising edge-triggered cell FDRE)
+  Destination:            control_unit/FSM_onehot_current_state_reg[5]/D
   Path Group:             (none)
   Path Type:              Min at Fast Process Corner
-  Data Path Delay:        2.803ns  (logic 1.369ns (48.835%)  route 1.434ns (51.165%))
-  Logic Levels:           3  (IBUF=1 LUT5=1 OBUF=1)
+  Data Path Delay:        0.283ns  (logic 0.186ns (65.775%)  route 0.097ns (34.225%))
+  Logic Levels:           2  (FDRE=1 LUT4=1)
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
-    G20                                               0.000     0.000 r  num_b[31] (IN)
-                         net (fo=0)                   0.000     0.000    num_b[31]
-    G20                  IBUF (Prop_ibuf_I_O)         0.179     0.179 r  num_b_IBUF[31]_inst/O
-                         net (fo=2, routed)           0.546     0.725    align_exp/num_b_IBUF[31]
-    SLICE_X41Y50         LUT5 (Prop_lut5_I1_O)        0.045     0.770 r  align_exp/result_OBUF[31]_inst_i_1/O
-                         net (fo=1, routed)           0.888     1.659    result_OBUF[31]
-    B19                  OBUF (Prop_obuf_I_O)         1.145     2.803 r  result_OBUF[31]_inst/O
-                         net (fo=0)                   0.000     2.803    result[31]
-    B19                                                               r  result[31] (OUT)
+    SLICE_X40Y59         FDRE                         0.000     0.000 r  pack/ready_reg/C
+    SLICE_X40Y59         FDRE (Prop_fdre_C_Q)         0.141     0.141 f  pack/ready_reg/Q
+                         net (fo=3, routed)           0.097     0.238    control_unit/pack_ready
+    SLICE_X41Y59         LUT4 (Prop_lut4_I0_O)        0.045     0.283 r  control_unit/FSM_onehot_current_state[5]_i_1/O
+                         net (fo=1, routed)           0.000     0.283    control_unit/FSM_onehot_current_state[5]_i_1_n_0
+    SLICE_X41Y59         FDCE                                         r  control_unit/FSM_onehot_current_state_reg[5]/D
   -------------------------------------------------------------------    -------------------
 
 Slack:                    inf
-  Source:                 num_b[23]
-                            (input port)
-  Destination:            result[24]
-                            (output port)
+  Source:                 pack/ready_reg/C
+                            (rising edge-triggered cell FDRE)
+  Destination:            control_unit/FSM_onehot_current_state_reg[6]/D
   Path Group:             (none)
   Path Type:              Min at Fast Process Corner
-  Data Path Delay:        2.997ns  (logic 1.435ns (47.887%)  route 1.562ns (52.113%))
-  Logic Levels:           4  (IBUF=1 LUT3=1 LUT5=1 OBUF=1)
+  Data Path Delay:        0.284ns  (logic 0.186ns (65.543%)  route 0.098ns (34.457%))
+  Logic Levels:           2  (FDRE=1 LUT2=1)
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
-    L15                                               0.000     0.000 r  num_b[23] (IN)
-                         net (fo=0)                   0.000     0.000    num_b[23]
-    L15                  IBUF (Prop_ibuf_I_O)         0.205     0.205 r  num_b_IBUF[23]_inst/O
-                         net (fo=11, routed)          0.542     0.747    align_exp/num_b_IBUF[23]
-    SLICE_X41Y53         LUT3 (Prop_lut3_I2_O)        0.045     0.792 r  align_exp/result_OBUF[25]_inst_i_4/O
-                         net (fo=3, routed)           0.208     1.000    align_exp/exp_a_aligned[0]
-    SLICE_X42Y54         LUT5 (Prop_lut5_I2_O)        0.045     1.045 r  align_exp/result_OBUF[24]_inst_i_1/O
-                         net (fo=1, routed)           0.812     1.856    result_OBUF[24]
-    E19                  OBUF (Prop_obuf_I_O)         1.140     2.997 r  result_OBUF[24]_inst/O
-                         net (fo=0)                   0.000     2.997    result[24]
-    E19                                                               r  result[24] (OUT)
+    SLICE_X40Y59         FDRE                         0.000     0.000 r  pack/ready_reg/C
+    SLICE_X40Y59         FDRE (Prop_fdre_C_Q)         0.141     0.141 r  pack/ready_reg/Q
+                         net (fo=3, routed)           0.098     0.239    pack/pack_ready
+    SLICE_X41Y59         LUT2 (Prop_lut2_I0_O)        0.045     0.284 r  pack/FSM_onehot_current_state[6]_i_1/O
+                         net (fo=1, routed)           0.000     0.284    control_unit/D[0]
+    SLICE_X41Y59         FDCE                                         r  control_unit/FSM_onehot_current_state_reg[6]/D
   -------------------------------------------------------------------    -------------------
 
 Slack:                    inf
-  Source:                 num_b[26]
-                            (input port)
-  Destination:            result[27]
-                            (output port)
+  Source:                 normalize/mant_shifted_reg[22]/C
+                            (rising edge-triggered cell FDRE)
+  Destination:            normalize/mant_out_reg[22]/D
   Path Group:             (none)
   Path Type:              Min at Fast Process Corner
-  Data Path Delay:        3.009ns  (logic 1.422ns (47.281%)  route 1.586ns (52.719%))
-  Logic Levels:           4  (IBUF=1 LUT5=1 LUT6=1 OBUF=1)
+  Data Path Delay:        0.284ns  (logic 0.186ns (65.524%)  route 0.098ns (34.476%))
+  Logic Levels:           2  (FDRE=1 LUT4=1)
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
-    N15                                               0.000     0.000 r  num_b[26] (IN)
-                         net (fo=0)                   0.000     0.000    num_b[26]
-    N15                  IBUF (Prop_ibuf_I_O)         0.191     0.191 r  num_b_IBUF[26]_inst/O
-                         net (fo=11, routed)          0.507     0.698    align_exp/num_b_IBUF[26]
-    SLICE_X41Y53         LUT6 (Prop_lut6_I0_O)        0.045     0.743 r  align_exp/result_OBUF[27]_inst_i_3/O
-                         net (fo=2, routed)           0.116     0.859    align_exp/result_OBUF[27]_inst_i_3_n_0
-    SLICE_X41Y54         LUT5 (Prop_lut5_I4_O)        0.045     0.904 r  align_exp/result_OBUF[27]_inst_i_1/O
-                         net (fo=1, routed)           0.962     1.867    result_OBUF[27]
-    D19                  OBUF (Prop_obuf_I_O)         1.142     3.009 r  result_OBUF[27]_inst/O
-                         net (fo=0)                   0.000     3.009    result[27]
-    D19                                                               r  result[27] (OUT)
+    SLICE_X37Y60         FDRE                         0.000     0.000 r  normalize/mant_shifted_reg[22]/C
+    SLICE_X37Y60         FDRE (Prop_fdre_C_Q)         0.141     0.141 r  normalize/mant_shifted_reg[22]/Q
+                         net (fo=1, routed)           0.098     0.239    add_sub/mant_out_reg[22]_0[22]
+    SLICE_X36Y60         LUT4 (Prop_lut4_I2_O)        0.045     0.284 r  add_sub/mant_out[22]_i_1/O
+                         net (fo=1, routed)           0.000     0.284    normalize/mant_out_reg[22]_0[22]
+    SLICE_X36Y60         FDCE                                         r  normalize/mant_out_reg[22]/D
   -------------------------------------------------------------------    -------------------
 
 Slack:                    inf
-  Source:                 num_b[28]
-                            (input port)
-  Destination:            result[28]
-                            (output port)
+  Source:                 normalize/mant_shifted_reg[1]/C
+                            (rising edge-triggered cell FDRE)
+  Destination:            normalize/mant_out_reg[1]/D
   Path Group:             (none)
   Path Type:              Min at Fast Process Corner
-  Data Path Delay:        3.014ns  (logic 1.430ns (47.442%)  route 1.584ns (52.558%))
-  Logic Levels:           4  (IBUF=1 LUT3=1 LUT5=1 OBUF=1)
+  Data Path Delay:        0.294ns  (logic 0.186ns (63.248%)  route 0.108ns (36.752%))
+  Logic Levels:           2  (FDRE=1 LUT4=1)
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
-    K14                                               0.000     0.000 f  num_b[28] (IN)
-                         net (fo=0)                   0.000     0.000    num_b[28]
-    K14                  IBUF (Prop_ibuf_I_O)         0.220     0.220 f  num_b_IBUF[28]_inst/O
-                         net (fo=10, routed)          0.429     0.649    align_exp/num_b_IBUF[28]
-    SLICE_X42Y55         LUT3 (Prop_lut3_I2_O)        0.045     0.694 r  align_exp/result_OBUF[28]_inst_i_2/O
-                         net (fo=1, routed)           0.225     0.919    align_exp/result_OBUF[28]_inst_i_2_n_0
-    SLICE_X42Y55         LUT5 (Prop_lut5_I3_O)        0.045     0.964 r  align_exp/result_OBUF[28]_inst_i_1/O
-                         net (fo=1, routed)           0.929     1.894    result_OBUF[28]
-    D18                  OBUF (Prop_obuf_I_O)         1.120     3.014 r  result_OBUF[28]_inst/O
-                         net (fo=0)                   0.000     3.014    result[28]
-    D18                                                               r  result[28] (OUT)
+    SLICE_X39Y61         FDRE                         0.000     0.000 r  normalize/mant_shifted_reg[1]/C
+    SLICE_X39Y61         FDRE (Prop_fdre_C_Q)         0.141     0.141 r  normalize/mant_shifted_reg[1]/Q
+                         net (fo=1, routed)           0.108     0.249    add_sub/mant_out_reg[22]_0[1]
+    SLICE_X41Y61         LUT4 (Prop_lut4_I2_O)        0.045     0.294 r  add_sub/mant_out[1]_i_1/O
+                         net (fo=1, routed)           0.000     0.294    normalize/mant_out_reg[22]_0[1]
+    SLICE_X41Y61         FDCE                                         r  normalize/mant_out_reg[1]/D
   -------------------------------------------------------------------    -------------------
 
 Slack:                    inf
-  Source:                 num_b[27]
-                            (input port)
-  Destination:            result[30]
-                            (output port)
+  Source:                 add_sub/ready_reg/C
+                            (rising edge-triggered cell FDCE)
+  Destination:            control_unit/FSM_onehot_current_state_reg[3]/D
   Path Group:             (none)
   Path Type:              Min at Fast Process Corner
-  Data Path Delay:        3.047ns  (logic 1.456ns (47.792%)  route 1.591ns (52.208%))
-  Logic Levels:           4  (IBUF=1 LUT6=2 OBUF=1)
+  Data Path Delay:        0.296ns  (logic 0.227ns (76.806%)  route 0.069ns (23.194%))
+  Logic Levels:           2  (FDCE=1 LUT4=1)
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
-    J14                                               0.000     0.000 r  num_b[27] (IN)
-                         net (fo=0)                   0.000     0.000    num_b[27]
-    J14                  IBUF (Prop_ibuf_I_O)         0.218     0.218 r  num_b_IBUF[27]_inst/O
-                         net (fo=11, routed)          0.491     0.709    align_exp/num_b_IBUF[27]
-    SLICE_X43Y55         LUT6 (Prop_lut6_I2_O)        0.045     0.754 r  align_exp/result_OBUF[30]_inst_i_6/O
-                         net (fo=2, routed)           0.174     0.927    align_exp/result_OBUF[30]_inst_i_6_n_0
-    SLICE_X42Y55         LUT6 (Prop_lut6_I5_O)        0.045     0.972 r  align_exp/result_OBUF[30]_inst_i_1/O
-                         net (fo=1, routed)           0.926     1.898    result_OBUF[30]
-    A20                  OBUF (Prop_obuf_I_O)         1.148     3.047 r  result_OBUF[30]_inst/O
-                         net (fo=0)                   0.000     3.047    result[30]
-    A20                                                               r  result[30] (OUT)
+    SLICE_X41Y55         FDCE                         0.000     0.000 r  add_sub/ready_reg/C
+    SLICE_X41Y55         FDCE (Prop_fdce_C_Q)         0.128     0.128 f  add_sub/ready_reg/Q
+                         net (fo=2, routed)           0.069     0.197    control_unit/addsub_ready
+    SLICE_X41Y55         LUT4 (Prop_lut4_I0_O)        0.099     0.296 r  control_unit/FSM_onehot_current_state[3]_i_1/O
+                         net (fo=1, routed)           0.000     0.296    control_unit/FSM_onehot_current_state[3]_i_1_n_0
+    SLICE_X41Y55         FDCE                                         r  control_unit/FSM_onehot_current_state_reg[3]/D
   -------------------------------------------------------------------    -------------------
 
 Slack:                    inf
-  Source:                 num_b[25]
-                            (input port)
-  Destination:            result[26]
-                            (output port)
+  Source:                 normalize/mant_shifted_reg[3]/C
+                            (rising edge-triggered cell FDRE)
+  Destination:            normalize/mant_out_reg[3]/D
   Path Group:             (none)
   Path Type:              Min at Fast Process Corner
-  Data Path Delay:        3.072ns  (logic 1.418ns (46.157%)  route 1.654ns (53.843%))
-  Logic Levels:           4  (IBUF=1 LUT5=1 LUT6=1 OBUF=1)
+  Data Path Delay:        0.302ns  (logic 0.186ns (61.544%)  route 0.116ns (38.456%))
+  Logic Levels:           2  (FDRE=1 LUT4=1)
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
-    N16                                               0.000     0.000 r  num_b[25] (IN)
-                         net (fo=0)                   0.000     0.000    num_b[25]
-    N16                  IBUF (Prop_ibuf_I_O)         0.188     0.188 r  num_b_IBUF[25]_inst/O
-                         net (fo=11, routed)          0.484     0.672    align_exp/num_b_IBUF[25]
-    SLICE_X41Y54         LUT6 (Prop_lut6_I0_O)        0.045     0.717 r  align_exp/result_OBUF[26]_inst_i_3/O
-                         net (fo=2, routed)           0.247     0.964    align_exp/result_OBUF[26]_inst_i_3_n_0
-    SLICE_X42Y54         LUT5 (Prop_lut5_I3_O)        0.045     1.009 r  align_exp/result_OBUF[26]_inst_i_1/O
-                         net (fo=1, routed)           0.923     1.932    result_OBUF[26]
-    D20                  OBUF (Prop_obuf_I_O)         1.140     3.072 r  result_OBUF[26]_inst/O
-                         net (fo=0)                   0.000     3.072    result[26]
-    D20                                                               r  result[26] (OUT)
+    SLICE_X40Y62         FDRE                         0.000     0.000 r  normalize/mant_shifted_reg[3]/C
+    SLICE_X40Y62         FDRE (Prop_fdre_C_Q)         0.141     0.141 r  normalize/mant_shifted_reg[3]/Q
+                         net (fo=1, routed)           0.116     0.257    add_sub/mant_out_reg[22]_0[3]
+    SLICE_X40Y63         LUT4 (Prop_lut4_I2_O)        0.045     0.302 r  add_sub/mant_out[3]_i_1/O
+                         net (fo=1, routed)           0.000     0.302    normalize/mant_out_reg[22]_0[3]
+    SLICE_X40Y63         FDCE                                         r  normalize/mant_out_reg[3]/D
   -------------------------------------------------------------------    -------------------
 
 Slack:                    inf
-  Source:                 num_b[27]
-                            (input port)
-  Destination:            result[29]
-                            (output port)
+  Source:                 control_unit/FSM_onehot_current_state_reg[1]/C
+                            (rising edge-triggered cell FDCE)
+  Destination:            unpack/exp_b_reg[4]/CE
   Path Group:             (none)
   Path Type:              Min at Fast Process Corner
-  Data Path Delay:        3.128ns  (logic 1.428ns (45.652%)  route 1.700ns (54.348%))
-  Logic Levels:           4  (IBUF=1 LUT5=1 LUT6=1 OBUF=1)
+  Data Path Delay:        0.306ns  (logic 0.164ns (53.606%)  route 0.142ns (46.394%))
+  Logic Levels:           1  (FDCE=1)
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
-    J14                                               0.000     0.000 r  num_b[27] (IN)
-                         net (fo=0)                   0.000     0.000    num_b[27]
-    J14                  IBUF (Prop_ibuf_I_O)         0.218     0.218 r  num_b_IBUF[27]_inst/O
-                         net (fo=11, routed)          0.491     0.709    align_exp/num_b_IBUF[27]
-    SLICE_X43Y55         LUT6 (Prop_lut6_I2_O)        0.045     0.754 r  align_exp/result_OBUF[30]_inst_i_6/O
-                         net (fo=2, routed)           0.254     1.007    align_exp/result_OBUF[30]_inst_i_6_n_0
-    SLICE_X42Y55         LUT5 (Prop_lut5_I4_O)        0.045     1.052 r  align_exp/result_OBUF[29]_inst_i_1/O
-                         net (fo=1, routed)           0.956     2.008    result_OBUF[29]
-    E17                  OBUF (Prop_obuf_I_O)         1.120     3.128 r  result_OBUF[29]_inst/O
-                         net (fo=0)                   0.000     3.128    result[29]
-    E17                                                               r  result[29] (OUT)
+    SLICE_X42Y55         FDCE                         0.000     0.000 r  control_unit/FSM_onehot_current_state_reg[1]/C
+    SLICE_X42Y55         FDCE (Prop_fdce_C_Q)         0.164     0.164 r  control_unit/FSM_onehot_current_state_reg[1]/Q
+                         net (fo=69, routed)          0.142     0.306    unpack/E[0]
+    SLICE_X42Y54         FDCE                                         r  unpack/exp_b_reg[4]/CE
   -------------------------------------------------------------------    -------------------
 
 Slack:                    inf
-  Source:                 num_b[31]
-                            (input port)
-  Destination:            result[12]
-                            (output port)
+  Source:                 control_unit/FSM_onehot_current_state_reg[1]/C
+                            (rising edge-triggered cell FDCE)
+  Destination:            unpack/exp_b_reg[5]/CE
   Path Group:             (none)
   Path Type:              Min at Fast Process Corner
-  Data Path Delay:        3.182ns  (logic 1.473ns (46.284%)  route 1.709ns (53.716%))
-  Logic Levels:           5  (IBUF=1 LUT3=1 LUT5=1 LUT6=1 OBUF=1)
+  Data Path Delay:        0.306ns  (logic 0.164ns (53.606%)  route 0.142ns (46.394%))
+  Logic Levels:           1  (FDCE=1)
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
-    G20                                               0.000     0.000 r  num_b[31] (IN)
-                         net (fo=0)                   0.000     0.000    num_b[31]
-    G20                  IBUF (Prop_ibuf_I_O)         0.179     0.179 r  num_b_IBUF[31]_inst/O
-                         net (fo=2, routed)           0.547     0.726    normalize/num_b_IBUF[8]
-    SLICE_X41Y50         LUT3 (Prop_lut3_I2_O)        0.045     0.771 r  normalize/result_OBUF[30]_inst_i_10/O
-                         net (fo=25, routed)          0.147     0.919    align_exp/result_OBUF[5]_inst_i_3_0
-    SLICE_X40Y48         LUT6 (Prop_lut6_I1_O)        0.045     0.964 r  align_exp/result_OBUF[12]_inst_i_2/O
-                         net (fo=10, routed)          0.377     1.341    align_exp/result_OBUF[12]_inst_i_2_n_0
-    SLICE_X41Y56         LUT5 (Prop_lut5_I0_O)        0.045     1.386 r  align_exp/result_OBUF[12]_inst_i_1/O
-                         net (fo=1, routed)           0.638     2.024    result_OBUF[12]
-    L17                  OBUF (Prop_obuf_I_O)         1.159     3.182 r  result_OBUF[12]_inst/O
-                         net (fo=0)                   0.000     3.182    result[12]
-    L17                                                               r  result[12] (OUT)
+    SLICE_X42Y55         FDCE                         0.000     0.000 r  control_unit/FSM_onehot_current_state_reg[1]/C
+    SLICE_X42Y55         FDCE (Prop_fdce_C_Q)         0.164     0.164 r  control_unit/FSM_onehot_current_state_reg[1]/Q
+                         net (fo=69, routed)          0.142     0.306    unpack/E[0]
+    SLICE_X42Y54         FDCE                                         r  unpack/exp_b_reg[5]/CE
   -------------------------------------------------------------------    -------------------
 
 

@@ -1,11 +1,11 @@
 Vivado Simulator v2024.2.0
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
 Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
-Running: E:/Viv/Vivado/2024.2/bin/unwrapped/win64.o/xelab.exe --incr --debug typical --relax --mt 2 -L xil_defaultlib -L uvm -L unisims_ver -L unimacro_ver -L secureip --snapshot fpu_tb_behav xil_defaultlib.fpu_tb xil_defaultlib.glbl -log elaborate.log 
+Running: E:/Viv/Vivado/2024.2/bin/unwrapped/win64.o/xelab.exe --incr --debug typical --relax --mt 2 -L xil_defaultlib -L uvm -L unisims_ver -L unimacro_ver -L secureip -L xpm --snapshot synchronus_addsub_tb_behav xil_defaultlib.synchronus_addsub_tb xil_defaultlib.glbl -log elaborate.log 
 Using 2 slave threads.
 Starting static elaboration
 Pass Through NonSizing Optimizer
-WARNING: [VRFC 10-3091] actual bit length 23 differs from formal bit length 5 for port 'out' [H:/KavishkaJ/UOM/Sem 5/DSD/Assignments/FPU/FPU/FPU.srcs/sources_1/new/normalize.sv:32]
+WARNING: [VRFC 10-3091] actual bit length 23 differs from formal bit length 5 for port 'out' [H:/KavishkaJ/UOM/Sem 5/DSD/Assignments/FPU/FPU/FPU.srcs/sources_1/new/normalize.sv:36]
 Completed static elaboration
 Starting simulation data flow analysis
 Completed simulation data flow analysis
@@ -16,7 +16,8 @@ Compiling module xil_defaultlib.add_sub
 Compiling module xil_defaultlib.shift_counter
 Compiling module xil_defaultlib.normalize
 Compiling module xil_defaultlib.pack
+Compiling module xil_defaultlib.add_sub_control_unit
 Compiling module xil_defaultlib.fpu
-Compiling module xil_defaultlib.fpu_tb
+Compiling module xil_defaultlib.synchronus_addsub_tb
 Compiling module xil_defaultlib.glbl
-Built simulation snapshot fpu_tb_behav
+Built simulation snapshot synchronus_addsub_tb_behav
