@@ -56,6 +56,11 @@ if {$::dispatch::connected} {
 }
 
 OPTRACE "synth_1" START { ROLLUP_AUTO }
+set_param chipscope.maxJobs 2
+set_param checkpoint.writeSynthRtdsInDcp 1
+set_msg_config -id {Common 17-41} -limit 10000000
+set_msg_config -id {Synth 8-256} -limit 10000
+set_msg_config -id {Synth 8-638} -limit 10000
 OPTRACE "Creating in-memory project" START { }
 create_project -in_memory -part xc7z010clg400-1
 
@@ -75,7 +80,9 @@ OPTRACE "Adding files" START { }
 read_verilog -library xil_defaultlib -sv {
   {H:/KavishkaJ/UOM/Sem 5/DSD/Assignments/FPU/FPU/FPU.srcs/sources_1/new/add_sub.sv}
   {H:/KavishkaJ/UOM/Sem 5/DSD/Assignments/FPU/FPU/FPU.srcs/sources_1/new/align_exp.sv}
-  {H:/KavishkaJ/UOM/Sem 5/DSD/Assignments/FPU/FPU/FPU.srcs/sources_1/new/control_unit.sv}
+  {H:/KavishkaJ/UOM/Sem 5/DSD/Assignments/FPU/FPU/FPU.srcs/sources_1/new/types_pkg.sv}
+  {H:/KavishkaJ/UOM/Sem 5/DSD/Assignments/FPU/FPU/FPU.srcs/sources_1/new/fpu_control_unit.sv}
+  {H:/KavishkaJ/UOM/Sem 5/DSD/Assignments/FPU/FPU/FPU.srcs/sources_1/new/mult.sv}
   {H:/KavishkaJ/UOM/Sem 5/DSD/Assignments/FPU/FPU/FPU.srcs/sources_1/new/normalize.sv}
   {H:/KavishkaJ/UOM/Sem 5/DSD/Assignments/FPU/FPU/FPU.srcs/sources_1/new/pack.sv}
   {H:/KavishkaJ/UOM/Sem 5/DSD/Assignments/FPU/FPU/FPU.srcs/sources_1/new/unpack.sv}

@@ -3,7 +3,7 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 10/13/2025 09:47:28 PM
+// Create Date: 10/15/2025 10:22:46 AM
 // Design Name: 
 // Module Name: fpu_tb
 // Project Name: 
@@ -19,85 +19,120 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
+module fpu_tb();
+    localparam WORD_WIDTH = 32;
+    localparam EXP_WIDTH  = 8;
+    localparam MANT_WIDTH = 23;
 
-module fpu_tb;
+    logic clk;
+    logic rstn;
+    logic en;
+    logic [1:0] op;
+    logic [WORD_WIDTH-1:0] num_a, num_b, result;
+    logic done;
 
-  parameter WORD_WIDTH = 32;
-  parameter EXP_WIDTH = 8;
-  parameter MANT_WIDTH = 23;
+    // Device Under Test
+    fpu #(
+        .WORD_WIDTH(WORD_WIDTH),
+        .EXP_WIDTH(EXP_WIDTH),
+        .MANT_WIDTH(MANT_WIDTH)
+    ) dut (
+        .num_a(num_a),
+        .num_b(num_b),
+        .clk(clk),
+        //.en(en),  //removed due to IO constrains
+        //s.rstn(rstn),
+        .op(op),
+        .result(result),
+        .done(done)
+    );
 
-  logic [WORD_WIDTH-1:0] num_a, num_b;
-  logic op; // 0 for add, 1 for sub
-  logic [WORD_WIDTH-1:0] result;
+    // Clock generation
+    initial clk = 0;
+    always #5 clk = ~clk;
 
-  // Instantiate the FPU module
-  fpu #(WORD_WIDTH, EXP_WIDTH, MANT_WIDTH) uut (
-    .num_a(num_a),
-    .num_b(num_b),
-    .op(op),
-    .result(result)
-  );
+    // Reset logic
+    initial begin
+        rstn = 0;
+        repeat (4) @(posedge clk);
+        rstn = 1;
+    end
 
-  initial begin
-    $display("Time(ns)  Operation                 num_a       num_b       Result");
+    // Construct normalized IEEE754 numbers
+    function [WORD_WIDTH-1:0] gen_fp(input logic sign, input logic [EXP_WIDTH-1:0] exp, input logic [MANT_WIDTH-1:0] frac);
+        gen_fp = {sign, exp, frac};
+    endfunction
 
-    // Test 1: Add 1.0 + 2.0
-    num_a = 32'h3F800000; // 1.0
-    num_b = 32'h40000000; // 2.0
-    op = 0;
-    #5;
-    $display("%0t ns  Add 1.0 + 2.0       = 0x%h + 0x%h = 0x%h", $time, num_a, num_b, result);
+    logic [WORD_WIDTH-1:0] numbers [0:7];
+    initial begin
+        // Compose a mix of positive and negative, normalized numbers with long fractional parts
+        // Example: sign, exponent, mantissa
+        numbers[0] = gen_fp(1'b0,  8'd127, 23'h400_000); // +1.5
+        numbers[1] = gen_fp(1'b1,  8'd127, 23'h600_000); // -1.75
+        numbers[2] = gen_fp(1'b0,  8'd128, 23'h200_000); // +2.5
+        numbers[3] = gen_fp(1'b1,  8'd128, 23'h3C0_000); // -2.94...
+        numbers[4] = gen_fp(1'b0,  8'd129, 23'h150_000); // +4.3125
+        numbers[5] = gen_fp(1'b1,  8'd129, 23'h500_000); // -5.25
+        numbers[6] = gen_fp(1'b0,  8'd130, 23'h380_000); // +12.75
+        numbers[7] = gen_fp(1'b1,  8'd130, 23'h420_000); // -16.25
+    end
 
-    // Test 2: Subtract 5.5 - 3.0
-    num_a = 32'h40B00000; // 5.5
-    num_b = 32'h40400000; // 3.0
-    op = 1;
-    #5;
-    $display("%0t ns  Sub 5.5 - 3.0       = 0x%h - 0x%h = 0x%h", $time, num_a, num_b, result);
+    // Test sequence: ADD, SUB, MUL (positive and negative pairs)
+    initial begin
+        en   = 0;   
+        //@(posedge rstn);
 
-    // Test 3: Add 10.0 + 0.25
-    num_a = 32'h41200000; // 10.0
-    num_b = 32'h3E800000; // 0.25
-    op = 0;
-    #5;
-    $display("%0t ns  Add 10.0 + 0.25     = 0x%h + 0x%h = 0x%h", $time, num_a, num_b, result);
+        // SUB +1.5 + -1.75 = -0.25
+        op    = 2'b01; en = 1;
+        num_a = numbers[0]; // +1.5
+        num_b = numbers[1]; // -1.75
+        @(negedge done);
 
-    // Test 4: Subtract 7.75 - 2.25
-    num_a = 32'h40F80000; // 7.75
-    num_b = 32'h40100000; // 2.25
-    op = 1;
-    #5;
-    $display("%0t ns  Sub 7.75 - 2.25     = 0x%h - 0x%h = 0x%h", $time, num_a, num_b, result);
+        // SUB +2.5 - -2.94 = 5.44...
+        op    = 2'b01;
+        num_a = numbers[2]; // +2.5
+        num_b = numbers[3]; // -2.94
+        @(negedge done);
 
-    // Test 5: Add 0.5 + 0.5
-    num_a = 32'h3F000000; // 0.5
-    num_b = 32'h3F000000; // 0.5
-    op = 0;
-    #5;
-    $display("%0t ns  Add 0.5 + 0.5       = 0x%h + 0x%h = 0x%h", $time, num_a, num_b, result);
+        // MUL -5.25 * +4.3125 = -22.64...
+        op    = 2'b10;
+        num_a = numbers[5]; // -5.25
+        num_b = numbers[4]; // +4.3125
+        @(negedge done);
 
-    // Test 6: Add 3.14159 + 2.71828 (approximate pi + e)
-    num_a = 32'h40490FDB; // approx 3.14159
-    num_b = 32'h402DF854; // approx 2.71828
-    op = 0;
-    #5;
-    $display("%0t ns  Add Pi + e          = 0x%h + 0x%h = 0x%h", $time, num_a, num_b, result);
+        // ADD -16.25 + +12.75 = -3.5
+        op    = 2'b00;
+        num_a = numbers[7]; // -16.25
+        num_b = numbers[6]; // +12.75
+        @(negedge done);
 
-    // Test 7: Subtract 123.456 - 78.9
-    num_a = 32'h42F6E979; // approx 123.456
-    num_b = 32'h42F115C3; // approx 78.9
-    op = 1;
-    #5;
-    $display("%0t ns  Sub 123.456 - 78.9  = 0x%h - 0x%h = 0x%h", $time, num_a, num_b, result);
+        // SUB -2.94 - +1.5 = -4.44...
+        op    = 2'b01;
+        num_a = numbers[3]; // -2.94
+        num_b = numbers[0]; // +1.5
+        @(negedge done);
 
-    // Test 8: Add 0.125 + 0.875
-    num_a = 32'h3E000000; // 0.125
-    num_b = 32'h3F600000; // 0.875
-    op = 0;
-    #5;
-    $display("%0t ns  Add 0.125 + 0.875   = 0x%h + 0x%h = 0x%h", $time, num_a, num_b, result);
+        // MUL -1.75 * -1.75 = +3.0625 (negative*negative=positive)
+        op    = 2'b10;
+        num_a = numbers[1]; // -1.75
+        num_b = numbers[1]; // -1.75
+        @(negedge done);
 
-    $finish;
-  end
+        en = 0;
+        repeat (25) @(posedge clk);
 
+        $finish;
+    end
+
+    // Print result after each op
+    always @(posedge clk) begin
+        if (rstn && en) begin
+            case (op)
+                2'b00: $display("[%0t] ADD : %h + %h = %h", $time, num_a, num_b, result);
+                2'b01: $display("[%0t] SUB : %h - %h = %h", $time, num_a, num_b, result);
+                2'b10: $display("[%0t] MUL : %h * %h = %h", $time, num_a, num_b, result);
+                default: ;
+            endcase
+        end
+    end
 endmodule
